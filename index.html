@@ -3,6 +3,8 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+
 	<title>OneSelfTechnology — AI-платформа личной дисциплины</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description"
@@ -159,6 +161,19 @@
 			background: rgba(255, 255, 255, 0.06);
 			color: var(--text-main);
 			transform: translateY(-1px);
+		}
+
+		/* --- Навигация: hover для светлой темы --- */
+		body.light .nav a:hover,
+		body[data-theme="light"] .nav a:hover {
+			color: #5a4fcf !important;
+			opacity: 1 !important;
+		}
+
+		body.light .nav a.active,
+		body[data-theme="light"] .nav a.active {
+			color: #5a4fcf !important;
+			font-weight: 600;
 		}
 
 		.header-right {
@@ -344,13 +359,6 @@
 			font-size: 14px;
 			max-width: 520px;
 			color: var(--text-muted);
-		}
-
-		.hero-actions {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 10px;
-			margin-bottom: 16px;
 		}
 
 		.hero-meta {
@@ -1341,6 +1349,126 @@
 			background: rgba(12, 20, 56, 0.9);
 		}
 
+		/* ------------------------------- */
+		/*  FIX: Светлая тема — читаемые карточки */
+		.light .form-card,
+		body[data-theme="light"] .form-card,
+		.light .support-card,
+		body[data-theme="light"] .support-card {
+			background: rgba(255, 255, 255, 0.6) !important;
+			backdrop-filter: blur(14px) !important;
+			-webkit-backdrop-filter: blur(14px) !important;
+			border: 1px solid rgba(140, 140, 160, 0.25) !important;
+			color: #1a1a1a !important;
+		}
+
+		.light .form-card input,
+		body[data-theme="light"] .form-card input,
+		.light .form-card select,
+		body[data-theme="light"] .form-card select,
+		.light .form-card textarea,
+		body[data-theme="light"] .form-card textarea {
+			background: rgba(255, 255, 255, 0.9) !important;
+			color: #1a1a1a !important;
+			border-color: rgba(120, 120, 140, 0.3) !important;
+		}
+
+		.light .form-card label,
+		body[data-theme="light"] .form-card label {
+			color: #1a1a1a !important;
+		}
+
+		.light .support-card,
+		body[data-theme="light"] .support-card {
+			color: #1a1a1a !important;
+		}
+
+		.light .support-card .wallet-text,
+		body[data-theme="light"] .support-card .wallet-text,
+		.light .support-card .support-description,
+		body[data-theme="light"] .support-card .support-description {
+			color: #222 !important;
+		}
+
+		/* Кнопки */
+		.light .btn-primary,
+		body[data-theme="light"] .btn-primary {
+			background: linear-gradient(90deg, #7b5bff, #8f63ff) !important;
+			color: white !important;
+		}
+
+		.light .btn-outline,
+		body[data-theme="light"] .btn-outline {
+			border: 1px solid rgba(100, 100, 120, 0.4) !important;
+			color: #3a3a4a !important;
+		}
+
+		/* ------------------------------- */
+
+		html[lang="ru"] [lang="en"] {
+			display: none !important;
+		}
+
+		html[lang="en"] [lang="ru"] {
+			display: none !important;
+		}
+
+		/* Универсальный стиль кнопок, как "Запустить свою систему" */
+		.btn-main {
+			background: linear-gradient(90deg, #7a5cff, #8f63ff);
+			color: white;
+			padding: 12px 26px;
+			border-radius: 18px;
+			border: none;
+			font-size: 16px;
+			font-weight: 500;
+			cursor: pointer;
+			transition: 0.25s ease;
+			box-shadow: 0 4px 18px rgba(123, 92, 255, 0.25);
+		}
+
+		.btn-main:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 22px rgba(123, 92, 255, 0.35);
+		}
+
+		/* Светлая тема — инвертированный, но красивый стиль */
+		.light .btn-main,
+		body[data-theme="light"] .btn-main {
+			background: linear-gradient(90deg, #8f63ff, #7a5cff);
+			color: white;
+		}
+
+		/* Вариант второстепенной кнопки (как у тебя “Посмотреть как работает”) */
+		.btn-secondary {
+			background: rgba(255, 255, 255, 0.15);
+			border: 1px solid rgba(255, 255, 255, 0.25);
+			padding: 12px 26px;
+			border-radius: 18px;
+			font-size: 16px;
+			font-weight: 500;
+			color: white;
+			cursor: pointer;
+			transition: 0.25s ease;
+		}
+
+		.btn-secondary:hover {
+			background: rgba(255, 255, 255, 0.25);
+		}
+
+		/* Светлая тема: */
+		.light .btn-secondary,
+		body[data-theme="light"] .btn-secondary {
+			background: rgba(140, 140, 160, 0.12);
+			border: 1px solid rgba(120, 120, 150, 0.3);
+			color: #1a1a1a;
+		}
+
+		.light .btn-secondary:hover,
+		body[data-theme="light"] .btn-secondary:hover {
+			background: rgba(160, 160, 180, 0.22);
+		}
+
 		/* RESPONSIVE */
 
 		@media (max-width: 900px) {
@@ -1446,14 +1574,10 @@
 						привычки и каждый день делать шаги к своим целям.
 					</p>
 
-					<div class="hero-actions">
-						<a href="#cta" class="btn primary" data-i18n="heroBtnPrimary">Запустить свою систему</a>
-						<a href="#solution" class="btn ghost" data-i18n="heroBtnSecondary">Посмотреть, как это работает</a>
-					</div>
-
 					<div class="hero-meta">
 						<p class="hero-contacts">
-							oneselftechnology.com · support@OneSelfTechnology.com
+							oneselftechnology.com · AIOneSelfTexnology@yandex.com
+
 						</p>
 					</div>
 				</div>
@@ -1725,6 +1849,7 @@
 				</div>
 			</div>
 		</section>
+		<div id="howItWorks"></div>
 		<!-- СЦЕНАРИИ ДИАЛОГОВ -->
 		<section class="section section-alt" id="scenarios">
 			<div class="container">
@@ -1932,7 +2057,7 @@
 		<div class="roadmap-cta-row">
 
 			<!-- Блок 1. Присоединиться к проекту / оставить контакты -->
-			<section class="roadmap-cta-card" id="join-ost-card">
+			<section class="roadmap-cta-card form-card" id="join-ost-card" lang="ru">
 				<h3 class="roadmap-cta-title" data-i18n="contactSupport.joinTitle">
 					Присоединиться к проекту OST
 				</h3>
@@ -1941,36 +2066,37 @@
 					или обсудить участие в развитии платформы.
 				</p>
 
-				<form id="join-ost-form" class="join-ost-form">
+				<form id="join-ost-form" class="join-ost-form" data-form-lang="ru"
+					onsubmit="sendContactForm('ru'); return false;">
 					<div class="join-ost-form-group">
 						<label>
 							<span data-i18n="contactSupport.formName">Имя</span>
-							<input type="text" name="name" required />
+							<input id="contact-name" type="text" name="name" required />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>
 							<span data-i18n="contactSupport.formEmail">Email</span>
-							<input type="email" name="email" required />
+							<input id="contact-email" type="email" name="email" required />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>
 							<span data-i18n="contactSupport.formRole">Роль</span>
-							<select name="role" required>
+							<select id="contact-role" name="role" required>
 								<option value="" disabled selected hidden></option>
-								<option value="user" data-i18n="contactSupport.formRoleUser">
+								<option value="Потенциальный пользователь" data-i18n="contactSupport.formRoleUser">
 									Потенциальный пользователь
 								</option>
-								<option value="investor" data-i18n="contactSupport.formRoleInvestor">
+								<option value="Инвестор / меценат" data-i18n="contactSupport.formRoleInvestor">
 									Инвестор / меценат
 								</option>
-								<option value="partner" data-i18n="contactSupport.formRolePartner">
+								<option value="Партнёр / компания" data-i18n="contactSupport.formRolePartner">
 									Партнёр / компания
 								</option>
-								<option value="other" data-i18n="contactSupport.formRoleOther">
+								<option value="Другое" data-i18n="contactSupport.formRoleOther">
 									Другое
 								</option>
 							</select>
@@ -1980,55 +2106,108 @@
 					<div class="join-ost-form-group">
 						<label>
 							<span data-i18n="contactSupport.formTelegram">Telegram (опционально)</span>
-							<input type="text" name="telegram" placeholder="@username" />
+							<input id="contact-telegram" type="text" name="telegram" placeholder="@username" />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group join-ost-form-group--full">
 						<label>
 							<span data-i18n="contactSupport.formComment">Комментарий (опционально)</span>
-							<textarea name="comment" rows="3"></textarea>
+							<textarea id="contact-comment" name="comment" rows="3"></textarea>
 						</label>
 					</div>
 
-					<button type="submit" class="ost-btn ost-btn-primary" data-i18n="contactSupport.formSubmit">
+					<button type="button" class="ost-btn ost-btn-primary btn-primary" data-i18n="contactSupport.formSubmit"
+						onclick="sendContactForm('ru')">
 						Отправить контакт
 					</button>
 				</form>
 
 				<p class="roadmap-cta-hint" data-i18n="contactSupport.joinHint">
 					При отправке откроется ваш почтовый клиент с подготовленным письмом на
-					support@OneSelfTechnology.com — вы сможете отредактировать письмо перед отправкой.
+					AIOneSelfTexnology@yandex.com — вы сможете отредактировать письмо перед отправкой.
 				</p>
 			</section>
 
+			<section class="roadmap-cta-card form-card" id="join-ost-card-en" lang="en">
+				<div class="form-title roadmap-cta-title">Join the OST Project</div>
+				<p class="form-sub roadmap-cta-text">
+					Leave your contacts if you want to join the pilot cohort,
+					suggest a partnership or discuss contributing to the platform.
+				</p>
+
+				<form id="join-ost-form-en" class="join-ost-form" data-form-lang="en"
+					onsubmit="sendContactForm('en'); return false;">
+					<div class="join-ost-form-group">
+						<label>Name
+							<input id="contact-name-en" type="text" name="name" placeholder="Your name" required />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>Email
+							<input id="contact-email-en" type="email" name="email" placeholder="email@example.com" required />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>Role
+							<select id="contact-role-en" name="role" required>
+								<option value="" disabled selected hidden></option>
+								<option value="Creator">Creator</option>
+								<option value="Developer">Developer</option>
+								<option value="Marketer">Marketer</option>
+								<option value="Coach">Coach</option>
+								<option value="Partner">Partner</option>
+								<option value="Other">Other</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>Telegram (optional)
+							<input id="contact-telegram-en" type="text" name="telegram" placeholder="@username" />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group join-ost-form-group--full">
+						<label>Comment (optional)
+							<textarea id="contact-comment-en" name="comment" rows="3" placeholder="Write your message…"></textarea>
+						</label>
+					</div>
+
+					<button type="button" class="ost-btn ost-btn-primary btn-primary" onclick="sendContactForm('en')">
+						Send contact
+					</button>
+				</form>
+			</section>
+
 			<!-- Блок 2. Поддержать проект финансово -->
-			<section class="roadmap-cta-card" id="support-ost-card">
+			<section class="roadmap-cta-card support-card" id="support-ost-card">
 				<h3 class="roadmap-cta-title" data-i18n="contactSupport.supportTitle">
 					Поддержать развитие OST
 				</h3>
-				<p class="roadmap-cta-text" data-i18n="contactSupport.supportText">
+				<p class="roadmap-cta-text support-description" data-i18n="contactSupport.supportText">
 					Если вам близка идея OST и вы хотите ускорить запуск, вы можете поддержать
 					проект финансово. Средства пойдут на разработку MVP, инфраструктуру и UX-исследования.
 				</p>
 
 				<div class="support-ost-actions">
-					<a class="ost-btn ost-btn-secondary" href="https://boosty.to/kirillmegasoft/blog/statistics" target="_blank"
-						rel="noopener" data-i18n="contactSupport.supportBoosty">
+					<button class="btn-main" type="button" data-i18n="contactSupport.supportBoosty"
+						onclick="window.open('https://boosty.to/kirillmegasoft', '_blank')">
 						Поддержать на Boosty
-					</a>
+					</button>
 
-					<button type="button" class="ost-btn ost-btn-outline" id="wallet-toggle-ost"
-						data-i18n="contactSupport.supportWallet">
+					<button type="button" class="btn-secondary" id="toggle-usdt" data-i18n="contactSupport.supportWallet">
 						Показать USDT-кошелёк
 					</button>
 				</div>
 
-				<div class="support-wallet" id="wallet-details-ost">
+				<div class="support-wallet" id="usdt-block">
 					<!-- QR: просто сохрани скрин как images/usdt-wallet-ost.png рядом с index.html -->
 					<img src="usdt-wallet-ost.png" alt="USDT депозит OST, сеть BSC (BEP20)" class="support-wallet-qr" />
 
-					<p class="support-wallet-network" data-i18n="contactSupport.walletNetwork">
+					<p class="support-wallet-network wallet-text" data-i18n="contactSupport.walletNetwork">
 						Сеть: BSC (BEP20)
 					</p>
 
@@ -2281,7 +2460,7 @@
 					joinText:
 						"Leave your contact if you want to join the pilot, propose a partnership or discuss contributing to the platform.",
 					joinHint:
-						"When you submit the form, your email client will open with a prepared message to support@OneSelfTechnology.com — you can edit it before sending.",
+						"When you submit the form, your email client will open with a prepared message to AIOneSelfTexnology@yandex.com — you can edit it before sending.",
 					formName: "Name",
 					formEmail: "Email",
 					formRole: "Role",
@@ -2324,7 +2503,7 @@
 					joinText:
 						"Оставьте контакты, если хотите попасть в пилот, предложить партнёрство или обсудить участие в развитии платформы.",
 					joinHint:
-						"При отправке формы откроется ваш почтовый клиент с подготовленным письмом на support@OneSelfTechnology.com — вы сможете отредактировать письмо перед отправкой.",
+						"При отправке формы откроется ваш почтовый клиент с подготовленным письмом на AIOneSelfTexnology@yandex.com — вы сможете отредактировать письмо перед отправкой.",
 					formName: "Имя",
 					formEmail: "Email",
 					formRole: "Роль",
@@ -2357,6 +2536,8 @@
 		});
 
 		function setLanguage(lang) {
+			document.documentElement.setAttribute('lang', lang);
+			document.documentElement.setAttribute('data-lang', lang);
 			langButtons.forEach(btn => {
 				btn.classList.toggle('active', btn.dataset.lang === lang);
 			});
@@ -2495,83 +2676,9 @@
 		});
 
 		document.addEventListener("DOMContentLoaded", function () {
-			const CONTACT_EMAIL = "support@OneSelfTechnology.com";
-
-			// ----- отправка формы контактов через mailto -----
-			const joinForm = document.getElementById("join-ost-form");
-
-			if (joinForm) {
-				joinForm.addEventListener("submit", function (event) {
-					event.preventDefault();
-
-					const formData = new FormData(joinForm);
-					const name = (formData.get("name") || "").trim();
-					const email = (formData.get("email") || "").trim();
-					const telegram = (formData.get("telegram") || "").trim();
-					const comment = (formData.get("comment") || "").trim();
-
-					const roleSelect = joinForm.querySelector('select[name="role"]');
-					const roleText = roleSelect && roleSelect.selectedOptions.length
-						? roleSelect.selectedOptions[0].textContent.trim()
-						: "";
-
-					const lang =
-						document.documentElement.getAttribute("data-lang") || "ru";
-
-					if (!name || !email || !roleText) {
-						if (lang === "ru") {
-							alert("Пожалуйста, заполните Имя, Email и Роль.");
-						} else {
-							alert("Please fill in Name, Email and Role.");
-						}
-						return;
-					}
-
-					const subject =
-						lang === "ru"
-							? `OST: новый контакт (${roleText})`
-							: `OST: new contact (${roleText})`;
-
-					let bodyLines = [];
-
-					if (lang === "ru") {
-						bodyLines.push(`Имя: ${name}`);
-						bodyLines.push(`Email: ${email}`);
-						bodyLines.push(`Роль: ${roleText}`);
-						if (telegram) bodyLines.push(`Telegram: ${telegram}`);
-						if (comment) {
-							bodyLines.push("");
-							bodyLines.push("Комментарий:");
-							bodyLines.push(comment);
-						}
-					} else {
-						bodyLines.push(`Name: ${name}`);
-						bodyLines.push(`Email: ${email}`);
-						bodyLines.push(`Role: ${roleText}`);
-						if (telegram) bodyLines.push(`Telegram: ${telegram}`);
-						if (comment) {
-							bodyLines.push("");
-							bodyLines.push("Comment:");
-							bodyLines.push(comment);
-						}
-					}
-
-					const body = bodyLines.join("\n");
-					const mailtoUrl =
-						"mailto:" +
-						CONTACT_EMAIL +
-						"?subject=" +
-						encodeURIComponent(subject) +
-						"&body=" +
-						encodeURIComponent(body);
-
-					window.location.href = mailtoUrl;
-				});
-			}
-
 			// ----- показать / скрыть кошелёк + копирование адреса -----
-			const walletToggle = document.getElementById("wallet-toggle-ost");
-			const walletDetails = document.getElementById("wallet-details-ost");
+			const walletToggle = document.getElementById("toggle-usdt");
+			const walletDetails = document.getElementById("usdt-block");
 			const walletAddress = document.getElementById("wallet-address-ost");
 			const walletCopyBtn = document.getElementById("wallet-copy-ost");
 
@@ -2585,7 +2692,9 @@
 				walletCopyBtn.addEventListener("click", function () {
 					const text = walletAddress.textContent.trim();
 					const lang =
-						document.documentElement.getAttribute("data-lang") || "ru";
+						document.documentElement.getAttribute("data-lang") ||
+						document.documentElement.getAttribute("lang") ||
+						"ru";
 
 					if (navigator.clipboard && navigator.clipboard.writeText) {
 						navigator.clipboard.writeText(text).then(
@@ -2620,6 +2729,41 @@
 				});
 			}
 		});
+	</script>
+	<script>
+		function sendContactForm(lang = (document.documentElement.getAttribute('data-lang') || document.documentElement.getAttribute('lang') || 'ru')) {
+			const suffix = lang === 'en' ? '-en' : '';
+			const nameInput = document.getElementById(`contact-name${suffix}`);
+			const emailInput = document.getElementById(`contact-email${suffix}`);
+			const roleSelect = document.getElementById(`contact-role${suffix}`);
+			const telegramInput = document.getElementById(`contact-telegram${suffix}`);
+			const commentInput = document.getElementById(`contact-comment${suffix}`);
+
+			if (!nameInput || !emailInput || !roleSelect || !telegramInput || !commentInput) return;
+
+			const name = nameInput.value.trim();
+			const email = emailInput.value.trim();
+			const role = roleSelect.value;
+			const telegram = telegramInput.value.trim();
+			const comment = commentInput.value.trim();
+
+			if (!name || !email || !role) {
+				const message = lang === 'en'
+					? 'Please fill in Name, Email and Role.'
+					: 'Пожалуйста, заполните Имя, Email и Роль.';
+				alert(message);
+				return;
+			}
+
+			const subject = lang === 'en' ? 'OST — new contact' : 'OST — новый контакт';
+			const body =
+				(lang === 'en'
+					? `Name: ${name}\nEmail: ${email}\nRole: ${role}\nTelegram: ${telegram}\nComment: ${comment}`
+					: `Имя: ${name}\nEmail: ${email}\nРоль: ${role}\nTelegram: ${telegram}\nКомментарий: ${comment}`);
+
+			const mailto = `mailto:AIOneSelfTexnology@yandex.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+			window.location.href = mailto;
+		}
 	</script>
 </body>
 
