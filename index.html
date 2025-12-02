@@ -217,10 +217,24 @@
 			cursor: pointer;
 		}
 
-		body[data-theme="light"] {
-			background:
-				radial-gradient(circle at top, #ffffff 0, #e5e8ff 50%, #eef0ff 100%);
+		body[data-theme="light"],
+		.light body {
+			position: relative;
 			color: #111320;
+			background-color: #f3f4ff;
+			background-image:
+				radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0.5px, transparent 0.5px),
+				radial-gradient(circle at 0% 0%, rgba(123, 92, 255, 0.45) 0, transparent 55%),
+				radial-gradient(circle at 100% 100%, rgba(76, 201, 255, 0.35) 0, transparent 55%),
+				radial-gradient(140% 200% at 0 0, #e6ddff 0, #f5f3ff 40%, #f5f8ff 60%, #e0f1ff 100%);
+			background-size: 40px 40px, 120% 120%, 120% 120%, 100% 100%;
+			background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+			background-attachment: fixed, fixed, fixed, fixed;
+		}
+
+		body[data-theme="light"] main,
+		.light main {
+			background: transparent;
 		}
 
 		body[data-theme="light"] .header {
@@ -232,9 +246,13 @@
 			background: transparent;
 		}
 
-		body[data-theme="light"] .card,
-		body[data-theme="light"] .section-alt {
+		body[data-theme="light"] .card {
 			background: rgba(255, 255, 255, 0.86);
+			color: #111320;
+		}
+
+		body[data-theme="light"] .section-alt {
+			background: transparent;
 			color: #111320;
 		}
 
@@ -259,6 +277,42 @@
 			position: relative;
 			overflow: hidden;
 			padding: 60px 0 40px;
+		}
+
+		.light .hero::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			background: radial-gradient(ellipse at center,
+					rgba(40, 40, 80, 0.22),
+					transparent 70%);
+		}
+
+		/* Общий мягкий overlay для всех секций в светлой теме */
+		.light .section,
+		body[data-theme="light"] .section {
+			position: relative;
+			overflow: hidden;
+			background: transparent;
+		}
+
+		.light .section::before,
+		body[data-theme="light"] .section::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			z-index: 0;
+			background: radial-gradient(ellipse at center,
+					rgba(40, 40, 80, 0.12),
+					transparent 70%);
+		}
+
+		.light .section>*,
+		body[data-theme="light"] .section>* {
+			position: relative;
+			z-index: 1;
 		}
 
 		.hero-bg {
@@ -602,6 +656,40 @@
 			gap: 18px;
 		}
 
+		/* Сетка проблем */
+		.problems-grid {
+			display: grid;
+			gap: 24px;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		}
+
+		@media (min-width: 1200px) {
+			.problems-grid {
+				grid-template-columns: repeat(3, minmax(260px, 1fr));
+			}
+
+			.problems-grid .card:nth-child(4) {
+				grid-column: 2;
+			}
+		}
+
+		/* Сетка фич OST */
+		.features-grid {
+			display: grid;
+			gap: 24px;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		}
+
+		@media (min-width: 1200px) {
+			.features-grid {
+				grid-template-columns: repeat(3, minmax(260px, 1fr));
+			}
+
+			.features-grid .card:nth-child(4) {
+				grid-column: 2;
+			}
+		}
+
 		/* SCENARIOS (диалоги бота) */
 
 		.scenarios-layout {
@@ -827,8 +915,22 @@
 		.cases-grid,
 		.segments-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-			gap: 18px;
+			gap: 24px;
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		}
+
+		@media (min-width: 1200px) {
+			.segments-grid {
+				grid-template-columns: repeat(4, minmax(260px, 1fr));
+			}
+
+			.segments-grid .segment-card:nth-child(5) {
+				grid-column: 2;
+			}
+
+			.segments-grid .segment-card:nth-child(6) {
+				grid-column: 3;
+			}
 		}
 
 		.case-card h3 {
@@ -1516,7 +1618,8 @@
 		<div class="container header-inner">
 			<a href="#top" class="logo-block logo-link">
 				<div class="logo-mark">
-					<img src="logo-ost.png" alt="OneSelfTechnology">
+					<img src="images/
+logo-ost.png" alt="OneSelfTechnology">
 				</div>
 				<div class="logo-text">
 					<span class="logo-title">OneSelfTechnology</span>
@@ -1630,7 +1733,7 @@
 				<p class="section-intro reveal" data-i18n="problemIntro">
 					Цифровая среда перегружена контентом и «марафонами», но это редко приводит к устойчивым изменениям поведения.
 				</p>
-				<div class="grid two-columns">
+				<div class="problems-grid">
 					<div class="card reveal">
 						<h3 data-i18n="problem1Title">Инфошум вместо системы</h3>
 						<p data-i18n="problem1Text">
@@ -1670,7 +1773,7 @@
 				<p class="section-intro reveal" data-i18n="solutionIntro">
 					OST — это AI-платформа личной дисциплины. Первый шаг — Telegram-бот-наставник, встроенный в ваш день.
 				</p>
-				<div class="grid two-columns">
+				<div class="features-grid">
 					<div class="card reveal">
 						<h3 data-i18n="solution1Title">Диагностика и профиль</h3>
 						<p data-i18n="solution1Text">
@@ -1709,7 +1812,8 @@
 				<div class="cases-grid">
 					<div class="card case-card">
 						<div class="case-image">
-							<img src="case-weightloss-ost.jpg" alt="Спокойная прогулка, отслеживание шагов и мягкая работа над собой">
+							<img src="images/
+case-weightloss-ost.jpg" alt="Спокойная прогулка, отслеживание шагов и мягкая работа над собой">
 						</div>
 						<h3>«Хочу похудеть без срывов»</h3>
 						<p>
@@ -1721,7 +1825,8 @@
 
 					<div class="card case-card">
 						<div class="case-image">
-							<img src="case-content-ost.jpg" alt="Создатель контента с ноутбуком и планом съёмок">
+							<img src="images/
+case-content-ost.jpg" alt="Создатель контента с ноутбуком и планом съёмок">
 						</div>
 						<h3>«Хочу регулярно делать контент»</h3>
 						<p>
@@ -1732,7 +1837,8 @@
 
 					<div class="card case-card">
 						<div class="case-image">
-							<img src="case-ai-ost.jpg" alt="Специалист работает с AI-ассистентом на ноутбуке">
+							<img src="images/
+case-ai-ost.jpg" alt="Специалист работает с AI-ассистентом на ноутбуке">
 						</div>
 						<h3>«Хочу научиться использовать AI в работе»</h3>
 						<p>
@@ -1756,7 +1862,8 @@
 				<div class="segments-grid">
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="segment-students-ost.png" alt="Студент с ноутбуком и книгами">
+							<img src="images/
+segment-students-ost.png" alt="Студент с ноутбуком и книгами">
 						</div>
 						<h3>Студентам и начинающим специалистам</h3>
 						<p>
@@ -1767,7 +1874,8 @@
 
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="case-smallboy.png" alt="Фрилансер или самозанятый за ноутбуком">
+							<img src="images/
+case-smallboy.png" alt="Фрилансер или самозанятый за ноутбуком">
 						</div>
 						<h3>Фрилансерам и самозанятым</h3>
 						<p>
@@ -1778,7 +1886,8 @@
 
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="case-bisnessparter.png" alt="Предприниматель и команда обсуждают задачи">
+							<img src="images/
+case-bisnessparter.png" alt="Предприниматель и команда обсуждают задачи">
 						</div>
 						<h3>Предпринимателям и тем, кто ищет себя</h3>
 						<p>
@@ -1789,7 +1898,8 @@
 
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="segment-family-ost.png" alt="Родитель и ребёнок, совместное обучение">
+							<img src="images/
+segment-family-ost.png" alt="Родитель и ребёнок, совместное обучение">
 						</div>
 						<h3>Семьям</h3>
 						<p>
@@ -1800,7 +1910,8 @@
 
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="case-couh.png" alt="Коуч ведёт группу участников">
+							<img src="images/
+case-couh.png" alt="Коуч ведёт группу участников">
 						</div>
 						<h3>Коучам и наставникам</h3>
 						<p>
@@ -1811,7 +1922,8 @@
 
 					<div class="card segment-card">
 						<div class="segment-icon">
-							<img src="segment-team-ost.png" alt="Команда у большого экрана с задачами">
+							<img src="images/
+segment-team-ost.png" alt="Команда у большого экрана с задачами">
 						</div>
 						<h3>Командам и небольшим бизнесам</h3>
 						<p>
@@ -2114,7 +2226,7 @@
 					<div class="join-ost-form-group join-ost-form-group--full">
 						<label>
 							<span data-i18n="contactSupport.formComment">Комментарий</span>
-							<textarea id="contact-comment" name="comment" rows="3" placeholder="Ваши пожелания..."></textarea>
+							<textarea id="contact-comment" name="comment" rows="3" placeholder="Ваши пожелания...)"></textarea>
 						</label>
 					</div>
 
@@ -2207,7 +2319,8 @@
 
 				<div class="support-wallet" id="usdt-block">
 					<!-- QR: просто сохрани скрин как images/usdt-wallet-ost.png рядом с index.html -->
-					<img src="usdt-wallet-ost.png" alt="USDT депозит OST, сеть BSC (BEP20)" class="support-wallet-qr" />
+					<img src="images/
+usdt-wallet-ost.png" alt="USDT депозит OST, сеть BSC (BEP20)" class="support-wallet-qr" />
 
 					<p class="support-wallet-network wallet-text" data-i18n="contactSupport.walletNetwork">
 						Сеть: BSC (BEP20)
@@ -2242,7 +2355,8 @@
 				<div class="reveal">
 					<div class="author-header">
 						<div class="author-avatar">
-							<img src="author-kirill-ost.png" alt="Кирилл Глущенко">
+							<img src="images/
+author-kirill-ost.png" alt="Кирилл Глущенко">
 						</div>
 						<div>
 							<div class="author-name">Кирилл Глущенко</div>
@@ -2513,8 +2627,8 @@
 					formRoleInvestor: "Инвестор / меценат",
 					formRolePartner: "Партнёр / компания",
 					formRoleOther: "Другое",
-					formTelegram: "Telegram (опционально)",
-					formComment: "Комментарий (опционально)",
+					formTelegram: "Telegram",
+					formComment: "Комментарий",
 					formSubmit: "Отправить контакт",
 					supportTitle: "Поддержать развитие OST",
 					supportText:
