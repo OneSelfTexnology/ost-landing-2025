@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<title>OneSelfTechnology — AI-платформа личной дисциплины</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+		content="OneSelfTechnology — AI-платформа и Telegram-бот-наставник для личной дисциплины и борьбы с прокрастинацией.">
+	<!-- Шрифты в стиле Linear / futurism -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+		rel="stylesheet">
+	<style>
+		:root {
+			--bg: #050511;
+			--bg-alt: #08081b;
+			--card-bg: rgba(13, 13, 34, 0.96);
+			--accent: #7b5cff;
+			--accent-soft: #a691ff;
+			--accent-blue: #4cc9ff;
+			--text-main: #f5f5f7;
+			--text-muted: #a3a3c2;
+			--border-subtle: rgba(255, 255, 255, 0.08);
+			--radius-xl: 26px;
+			--radius-lg: 18px;
+			--radius-md: 12px;
+			--radius-pill: 999px;
+			--shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.7);
+			--transition-fast: 0.18s ease-out;
+			--font-main: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+			--font-alt: "Space Grotesk", system-ui, sans-serif;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			background:
+				radial-gradient(circle at top, #241b4a 0, #050511 55%) fixed;
+			color: var(--text-main);
+			font-family: var(--font-main);
+			-webkit-font-smoothing: antialiased;
+			scroll-behavior: smooth;
+		}
+
+		body {
+			min-height: 100vh;
+		}
+
+		img {
+			max-width: 100%;
+			display: block;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 1120px;
+			margin: 0 auto;
+			padding: 0 16px;
+		}
+
+		/* HEADER */
+
+		.header {
+			position: sticky;
+			top: 0;
+			z-index: 40;
+			background: linear-gradient(to bottom,
+					rgba(5, 5, 16, 0.96),
+					rgba(5, 5, 16, 0.82),
+					transparent);
+			backdrop-filter: blur(18px);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+		}
+
+		.header-inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 16px;
+			padding: 10px 0;
+		}
+
+		.logo-block {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.logo-link {
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.logo-mark {
+			width: 40px;
+			height: 40px;
+			border-radius: 12px;
+			overflow: hidden;
+			background: transparent;
+			box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* чтобы картинка красиво вписывалась в квадрат */
+		.logo-mark img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.logo-text {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.logo-title {
+			font-family: var(--font-alt);
+			font-size: 13px;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+		}
+
+		.logo-subtitle {
+			font-size: 11px;
+			color: var(--text-muted);
+		}
+
+		.nav {
+			display: flex;
+			gap: 14px;
+			font-size: 13px;
+		}
+
+		.nav a {
+			padding: 6px 10px;
+			border-radius: var(--radius-pill);
+			color: var(--text-muted);
+			transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+		}
+
+		.nav a:hover {
+			background: rgba(255, 255, 255, 0.06);
+			color: var(--text-main);
+			transform: translateY(-1px);
+		}
+
+		.header-right {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.lang-switch {
+			display: flex;
+			gap: 6px;
+			font-size: 11px;
+		}
+
+		.lang-btn {
+			border-radius: var(--radius-pill);
+			border: 1px solid var(--border-subtle);
+			padding: 4px 10px;
+			background: transparent;
+			color: var(--text-muted);
+			cursor: pointer;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+		}
+
+		.lang-btn.active {
+			background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+			color: #fff;
+			border-color: transparent;
+		}
+
+		/* THEME TOGGLE (light / dark) */
+
+		.theme-toggle {
+			border-radius: var(--radius-pill);
+			border: 1px solid var(--border-subtle);
+			background: rgba(255, 255, 255, 0.03);
+			color: var(--text-muted);
+			font-size: 11px;
+			padding: 4px 10px;
+			cursor: pointer;
+		}
+
+		body[data-theme="light"] {
+			background:
+				radial-gradient(circle at top, #ffffff 0, #e5e8ff 50%, #eef0ff 100%);
+			color: #111320;
+		}
+
+		body[data-theme="light"] .header {
+			background: rgba(247, 248, 255, 0.96);
+			border-bottom-color: rgba(0, 0, 0, 0.06);
+		}
+
+		body[data-theme="light"] .logo-mark {
+			background: transparent;
+		}
+
+		body[data-theme="light"] .card,
+		body[data-theme="light"] .section-alt {
+			background: rgba(255, 255, 255, 0.86);
+			color: #111320;
+		}
+
+		body[data-theme="light"] .hero,
+		body[data-theme="light"] .hero-layer {
+			background: transparent;
+		}
+
+		body[data-theme="light"] .hero-title-outline {
+			-webkit-text-stroke-color: #111320;
+		}
+
+		body[data-theme="light"] .hero-subtitle,
+		body[data-theme="light"] .section-intro,
+		body[data-theme="light"] .text-muted {
+			color: #5c5f7a;
+		}
+
+		/* HERO */
+
+		.hero {
+			position: relative;
+			overflow: hidden;
+			padding: 60px 0 40px;
+		}
+
+		.hero-bg {
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		.hero-bg-layer {
+			position: absolute;
+			inset: -20%;
+			opacity: 0.8;
+			mix-blend-mode: screen;
+		}
+
+		.hero-bg-orbit {
+			background:
+				radial-gradient(circle at 0% 0%, rgba(123, 92, 255, 0.45) 0, transparent 55%),
+				radial-gradient(circle at 100% 100%, rgba(76, 201, 255, 0.35) 0, transparent 55%);
+		}
+
+		.hero-bg-grid {
+			background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0.5px, transparent 0.5px);
+			background-size: 40px 40px;
+			opacity: 0.09;
+		}
+
+		.hero-inner {
+			position: relative;
+			z-index: 1;
+			display: grid;
+			grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+			gap: 32px;
+			align-items: center;
+		}
+
+		.hero-left {
+			position: relative;
+			perspective: 1200px;
+		}
+
+		.hero-tag {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 4px 12px;
+			border-radius: var(--radius-pill);
+			font-size: 11px;
+			letter-spacing: 0.16em;
+			text-transform: uppercase;
+			border: 1px solid rgba(188, 164, 255, 0.6);
+			background: linear-gradient(135deg,
+					rgba(123, 92, 255, 0.42),
+					rgba(8, 8, 26, 0.9));
+			margin-bottom: 14px;
+		}
+
+		.hero-title-wrapper {
+			position: relative;
+			display: inline-block;
+			margin-bottom: 10px;
+		}
+
+		.hero-title-outline {
+			font-family: var(--font-alt);
+			font-size: clamp(32px, 4.4vw, 42px);
+			letter-spacing: 0.22em;
+			text-transform: uppercase;
+			-webkit-text-stroke: 1px rgba(255, 255, 255, 0.55);
+			-webkit-text-fill-color: transparent;
+			color: transparent;
+			filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.9));
+			opacity: 0;
+			transform: translateY(14px);
+			animation: titleAssemble 1.4s ease-out forwards;
+		}
+
+		.hero-title-fill {
+			position: absolute;
+			inset: 0;
+			font-family: var(--font-alt);
+			font-size: clamp(32px, 4.4vw, 42px);
+			letter-spacing: 0.22em;
+			text-transform: uppercase;
+			color: #ffffff;
+			background: linear-gradient(135deg, #ffffff, #d8cffc);
+			-webkit-background-clip: text;
+			opacity: 0;
+			transform: translateY(24px);
+			filter: blur(8px);
+			animation: titleGlow 1.4s ease-out forwards;
+			animation-delay: 0.15s;
+		}
+
+		.hero-subtitle {
+			margin: 0 0 18px;
+			font-size: 14px;
+			max-width: 520px;
+			color: var(--text-muted);
+		}
+
+		.hero-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-bottom: 16px;
+		}
+
+		.hero-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			font-size: 12px;
+			color: var(--text-muted);
+		}
+
+		.btn {
+			border-radius: var(--radius-pill);
+			padding: 10px 18px;
+			font-size: 14px;
+			border: 1px solid transparent;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			transition:
+				background var(--transition-fast),
+				transform var(--transition-fast),
+				box-shadow var(--transition-fast),
+				border-color var(--transition-fast),
+				color var(--transition-fast);
+			font-family: inherit;
+		}
+
+		.btn.primary {
+			background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+			color: #fff;
+			box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+		}
+
+		.btn.primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9);
+		}
+
+		.btn.ghost {
+			background: rgba(255, 255, 255, 0.04);
+			color: var(--text-main);
+			border-color: rgba(255, 255, 255, 0.14);
+		}
+
+		.btn.ghost:hover {
+			background: rgba(255, 255, 255, 0.08);
+		}
+
+		/* 3D ABSTRACTIONS (прямоугольники, двигаются от мыши / скролла) */
+
+		.hero-3d-stage {
+			position: absolute;
+			inset: -40px -80px 0 -40px;
+			pointer-events: none;
+			perspective: 1200px;
+			z-index: -1;
+		}
+
+		.hero-tiles {
+			position: absolute;
+			inset: 0;
+			transform-style: preserve-3d;
+			transition: transform 0.18s ease-out;
+		}
+
+		.hero-tile {
+			position: absolute;
+			width: 220px;
+			height: 120px;
+			border-radius: 18px;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			background:
+				linear-gradient(145deg, rgba(123, 92, 255, 0.16), rgba(8, 8, 26, 0.98));
+			box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
+			backdrop-filter: blur(16px);
+			opacity: 0.9;
+			transform-style: preserve-3d;
+		}
+
+		.hero-tile::after {
+			content: "";
+			position: absolute;
+			inset: 14px 16px 16px;
+			border-radius: 14px;
+			border: 1px dashed rgba(255, 255, 255, 0.22);
+			opacity: 0.7;
+		}
+
+		.hero-tile-1 {
+			top: 6%;
+			left: 55%;
+		}
+
+		.hero-tile-2 {
+			top: 42%;
+			left: 65%;
+		}
+
+		.hero-tile-3 {
+			top: 60%;
+			left: 40%;
+		}
+
+		.hero-tile-label {
+			position: absolute;
+			bottom: 12px;
+			left: 14px;
+			font-size: 11px;
+			text-transform: uppercase;
+			letter-spacing: 0.16em;
+			color: rgba(255, 255, 255, 0.75);
+		}
+
+		.hero-tile-accent {
+			position: absolute;
+			top: 10px;
+			right: 14px;
+			width: 18px;
+			height: 18px;
+			border-radius: 999px;
+			background: radial-gradient(circle at 30% 0%, #ffffff 0, #7b5cff 55%, transparent 70%);
+			box-shadow: 0 0 20px rgba(123, 92, 255, 0.8);
+		}
+
+		/* HERO RIGHT: место для картинки / 3D mockup */
+
+		.hero-right {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			perspective: 1200px;
+		}
+
+		.hero-orbit-card {
+			position: relative;
+			width: min(320px, 100%);
+			aspect-ratio: 4 / 5;
+			border-radius: 24px;
+			background:
+				radial-gradient(circle at top, rgba(123, 92, 255, 0.35), transparent 60%),
+				radial-gradient(circle at bottom, rgba(76, 201, 255, 0.24), transparent 65%),
+				#050511;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			box-shadow: 0 28px 80px rgba(0, 0, 0, 0.95);
+			overflow: hidden;
+			transform-style: preserve-3d;
+			transform: translateZ(0);
+		}
+
+		.hero-orbit-inner {
+			position: absolute;
+			inset: 14px;
+			border-radius: 20px;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(14px);
+			overflow: hidden;
+		}
+
+		.hero-orbit-header {
+			padding: 10px 14px;
+			font-size: 12px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: rgba(255, 255, 255, 0.86);
+		}
+
+		.hero-orbit-body {
+			padding: 12px 14px 16px;
+			font-size: 13px;
+			color: var(--text-muted);
+		}
+
+		/* Карточка "Сегодня" в hero — всегда светлый текст на тёмном фоне */
+		.light-theme .hero-chat-card,
+		body[data-theme="light"] .hero-chat-card {
+			color: rgba(255, 255, 255, 0.92);
+		}
+
+		.light-theme .hero-chat-card h3,
+		body[data-theme="light"] .hero-chat-card h3,
+		.light-theme .hero-chat-card p,
+		body[data-theme="light"] .hero-chat-card p,
+		.light-theme .hero-chat-card span,
+		body[data-theme="light"] .hero-chat-card span {
+			color: rgba(255, 255, 255, 0.95);
+		}
+
+		.hero-orbit-row {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 8px;
+		}
+
+		.hero-orbit-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 3px 9px;
+			border-radius: 999px;
+			background: rgba(5, 5, 16, 0.86);
+			font-size: 11px;
+		}
+
+		.hero-orbit-ring {
+			position: absolute;
+			inset: 16px;
+			border-radius: 28px;
+			border: 1px dashed rgba(255, 255, 255, 0.24);
+			opacity: 0.7;
+			mix-blend-mode: screen;
+			animation: orbitSpin 26s linear infinite;
+		}
+
+		/* SECTIONS */
+
+		.section {
+			padding: 40px 0;
+		}
+
+		.section-alt {
+			background: radial-gradient(circle at top, #141429 0, #050511 70%);
+		}
+
+		.section h2 {
+			font-family: var(--font-alt);
+			font-size: 22px;
+			margin: 0 0 16px;
+		}
+
+		.section-intro {
+			margin: 0 0 22px;
+			font-size: 14px;
+			max-width: 640px;
+			color: var(--text-muted);
+		}
+
+		.grid {
+			display: grid;
+			gap: 18px;
+		}
+
+		/* SCENARIOS (диалоги бота) */
+
+		.scenarios-layout {
+			display: grid;
+			grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+			gap: 22px;
+			align-items: flex-start;
+		}
+
+		.scenario-tabs {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin: 16px 0 14px;
+		}
+
+		.scenario-tab {
+			border-radius: var(--radius-pill);
+			padding: 6px 12px;
+			font-size: 12px;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			background: rgba(255, 255, 255, 0.02);
+			color: var(--text-muted);
+			cursor: pointer;
+			transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+		}
+
+		.scenario-tab:hover {
+			background: rgba(255, 255, 255, 0.06);
+			transform: translateY(-1px);
+		}
+
+		.scenario-tab.active {
+			background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+			border-color: transparent;
+			color: #fff;
+		}
+
+		.scenario-card {
+			background: radial-gradient(circle at top, rgba(123, 92, 255, 0.26), transparent 60%),
+				radial-gradient(circle at bottom, rgba(76, 201, 255, 0.18), transparent 65%),
+				#050511;
+			border-radius: 24px;
+			border: 1px solid rgba(255, 255, 255, 0.16);
+			box-shadow: 0 24px 70px rgba(0, 0, 0, 0.95);
+			padding: 16px 18px 18px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.scenario-card::before,
+		.scenario-card::after {
+			content: "";
+			position: absolute;
+			inset: 10px;
+			border-radius: 20px;
+			border: 1px dashed rgba(255, 255, 255, 0.22);
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
+		.scenario-meta {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 12px;
+			margin-bottom: 10px;
+			color: rgba(255, 255, 255, 0.9);
+			position: relative;
+			z-index: 1;
+		}
+
+		.scenario-tagline {
+			font-size: 13px;
+			color: var(--text-muted);
+			margin: 4px 0 0;
+		}
+
+		.scenario-chat {
+			position: relative;
+			z-index: 1;
+			margin-top: 8px;
+			display: none;
+		}
+
+		.scenario-chat.active {
+			display: block;
+		}
+
+		.chat-bubble {
+			max-width: 92%;
+			padding: 9px 12px;
+			border-radius: 14px;
+			font-size: 13px;
+			line-height: 1.45;
+			margin-bottom: 8px;
+		}
+
+		.chat-bubble.user {
+			background: rgba(15, 15, 32, 0.96);
+			border-top-left-radius: 4px;
+			margin-left: auto;
+			text-align: left;
+		}
+
+		.chat-bubble.bot {
+			background: rgba(255, 255, 255, 0.06);
+			border-top-right-radius: 4px;
+			margin-right: auto;
+		}
+
+		.chat-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 11px;
+			padding: 3px 9px;
+			border-radius: 999px;
+			background: rgba(5, 5, 16, 0.9);
+			color: rgba(255, 255, 255, 0.86);
+			margin-bottom: 6px;
+		}
+
+		.chat-badge span:last-child {
+			opacity: 0.86;
+		}
+
+		/* Текст в пузырях диалогов всегда светлый, независимо от темы */
+		.chat-bubble {
+			color: rgba(255, 255, 255, 0.92);
+		}
+
+		/* Усиливаем контраст внутри карточки сценария */
+		.scenario-card {
+			color: rgba(255, 255, 255, 0.9);
+		}
+
+		/* === Картинки для кейсов "Как OST помогает" === */
+
+		.case-image {
+			margin-bottom: 14px;
+			border-radius: 18px;
+			overflow: hidden;
+			height: 160px;
+			background: radial-gradient(circle at 0% 0%, #1e293b, #020617);
+		}
+
+		.case-image img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		/* === Иконки/изображения сегментов "Кому подойдёт OST" === */
+
+		.segment-card {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.segment-icon {
+			width: 100%;
+			height: 180px;
+			border-radius: 20px;
+			overflow: hidden;
+			margin-bottom: 16px;
+			background: radial-gradient(circle at 0% 0%, #1e293b, #020617);
+			box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+		}
+
+		.segment-icon img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		/* чуть больше воздуха под текстом, чтобы блоки смотрелись как кейсы */
+
+		.segment-card h3 {
+			margin-bottom: 10px;
+		}
+
+		.segment-card p {
+			line-height: 1.5;
+		}
+
+		/* === Блок автора в "О проекте и авторе" === */
+
+		.author-header {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			margin-bottom: 18px;
+		}
+
+		.author-avatar {
+			width: 52px;
+			height: 52px;
+			border-radius: 999px;
+			overflow: hidden;
+			background: radial-gradient(circle at 0% 0%, #1e293b, #020617);
+		}
+
+		.author-avatar img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+		}
+
+		.author-name {
+			font-weight: 600;
+			letter-spacing: 0.03em;
+		}
+
+		.author-role {
+			font-size: 13px;
+			opacity: 0.75;
+		}
+
+		.cases-grid,
+		.segments-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: 18px;
+		}
+
+		.case-card h3 {
+			margin: 0 0 6px;
+		}
+
+		.case-card p {
+			font-size: 13px;
+			margin: 0;
+		}
+
+		/* ROADMAP */
+
+		.roadmap-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+			gap: 18px;
+		}
+
+		.roadmap-step {
+			position: relative;
+			overflow: hidden;
+		}
+
+		.roadmap-step-number {
+			width: 26px;
+			height: 26px;
+			border-radius: 999px;
+			background: radial-gradient(circle at 30% 0%, #ffffff 0, var(--accent-soft) 55%, transparent 80%);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 13px;
+			font-weight: 600;
+			margin-bottom: 8px;
+			box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+		}
+
+		.roadmap-step h3 {
+			margin-top: 0;
+			margin-bottom: 4px;
+			font-size: 15px;
+		}
+
+		.roadmap-step p {
+			font-size: 13px;
+			margin: 0;
+		}
+
+		.roadmap-step-meta {
+			font-size: 12px;
+			color: var(--text-muted);
+			margin-top: 8px;
+		}
+
+		/* Контакты в hero */
+		.hero-contacts {
+			font-size: 12px;
+			margin-top: 12px;
+			color: rgba(255, 255, 255, 0.75);
+		}
+
+		/* В светлой теме делаем текст более тёмным и читаемым */
+		.light-theme .hero-contacts,
+		body[data-theme="light"] .hero-contacts {
+			color: rgba(15, 23, 42, 0.72);
+		}
+
+		/* Кнопки Light / EN в светлой теме — чёткая рамка и фон */
+		.light-theme .theme-toggle,
+		body[data-theme="light"] .theme-toggle,
+		.light-theme .lang-btn,
+		body[data-theme="light"] .lang-btn {
+			border-color: rgba(148, 163, 184, 0.55);
+			background: rgba(255, 255, 255, 0.9);
+			color: rgba(15, 23, 42, 0.75);
+			box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+		}
+
+		/* Активная языковая кнопка (RU/EN) в светлой теме — оставляем градиент, но усиливаем отделение */
+		.light-theme .lang-btn.active,
+		body[data-theme="light"] .lang-btn.active {
+			background: linear-gradient(135deg, #8b5cf6, #6366f1);
+			border-color: transparent;
+			color: #ffffff;
+			box-shadow: 0 10px 28px rgba(88, 80, 236, 0.35);
+		}
+
+		@media (max-width: 900px) {
+			.scenarios-layout {
+				grid-template-columns: minmax(0, 1fr);
+			}
+		}
+
+		.two-columns {
+			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		}
+
+		/* Сетка секции "О проекте и авторе": блоки не растягиваем по высоте */
+		.about-layout {
+			display: grid;
+			grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+			gap: 24px;
+			align-items: flex-start;
+		}
+
+		/* Карточка "Для экспертов Skillbox" — компактнее паддинги */
+		.experts-card {
+			padding-top: 18px;
+			padding-bottom: 18px;
+		}
+
+		/* ===== КУРСОР-ПАЛЕЦ НА КЛИКАБЕЛЬНЫХ ЭЛЕМЕНТАХ ===== */
+
+		a,
+		button,
+		.nav a,
+		.primary-cta,
+		.secondary-cta,
+		.theme-toggle-btn,
+		.theme-toggle,
+		.lang-btn,
+		.scenario-tab,
+		.tariff-card,
+		.card-clickable {
+			cursor: pointer;
+		}
+
+		/* ==== FIREWORK / SPARKLES CURSOR TRAIL ==== */
+
+		.cursor-particle {
+			position: fixed;
+			width: 6px;
+			height: 6px;
+			border-radius: 999px;
+			pointer-events: none;
+			background: radial-gradient(circle at 30% 0%,
+					rgba(255, 255, 255, 0.95),
+					rgba(129, 140, 248, 0.55),
+					transparent 70%);
+			opacity: 0.9;
+			transform: translate(-50%, -50%) scale(1);
+			transition:
+				transform 0.5s ease-out,
+				opacity 0.5s ease-out;
+			mix-blend-mode: screen;
+			z-index: 9998;
+			filter: blur(0.2px);
+		}
+
+		/* Искры в светлой теме — более тёмные и с обычным смешением */
+		.light-theme .cursor-particle,
+		body[data-theme="light"] .cursor-particle {
+			background: radial-gradient(circle at 30% 0%,
+					rgba(79, 70, 229, 0.95),
+					rgba(56, 189, 248, 0.65),
+					transparent 72%);
+			opacity: 0.95;
+			mix-blend-mode: normal;
+			box-shadow: 0 0 14px rgba(79, 70, 229, 0.45);
+		}
+
+		.three-columns {
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		}
+
+		.card {
+			background: var(--card-bg);
+			border-radius: var(--radius-lg);
+			padding: 16px 18px;
+			border: 1px solid var(--border-subtle);
+			box-shadow: var(--shadow-soft);
+			transition:
+				background var(--transition-fast),
+				box-shadow var(--transition-fast),
+				transform var(--transition-fast),
+				border-color var(--transition-fast);
+		}
+
+		.card h3 {
+			margin: 0 0 6px;
+			font-size: 16px;
+		}
+
+		.card p {
+			margin: 0;
+			font-size: 14px;
+			color: var(--text-muted);
+		}
+
+		.card:hover {
+			background: linear-gradient(145deg,
+					rgba(123, 92, 255, 0.22),
+					rgba(9, 9, 26, 0.98));
+			box-shadow: 0 22px 60px rgba(0, 0, 0, 0.9);
+			transform: translateY(-3px);
+			border-color: rgba(166, 145, 255, 0.7);
+		}
+
+		.text-muted {
+			color: var(--text-muted);
+		}
+
+		/* FOOTER */
+
+		.footer {
+			border-top: 1px solid var(--border-subtle);
+			padding: 14px 0 18px;
+			background: rgba(5, 5, 16, 0.96);
+		}
+
+		.footer-inner {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 10px;
+			font-size: 12px;
+			color: var(--text-muted);
+		}
+
+		.footer-links {
+			display: flex;
+			gap: 12px;
+		}
+
+		.footer-links a {
+			text-decoration: underline;
+			text-decoration-style: dotted;
+		}
+
+		/* REVEAL */
+
+		.reveal {
+			opacity: 0;
+			transform: translateY(14px);
+			transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+		}
+
+		.reveal.in-view {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* ANIMATIONS */
+
+		@keyframes titleAssemble {
+			0% {
+				opacity: 0;
+				transform: translateY(22px);
+				letter-spacing: 0.6em;
+			}
+
+			55% {
+				opacity: 1;
+				transform: translateY(0);
+				letter-spacing: 0.26em;
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(-2px);
+				letter-spacing: 0.22em;
+			}
+		}
+
+		@keyframes titleGlow {
+			0% {
+				opacity: 0;
+				transform: translateY(22px);
+				filter: blur(10px);
+			}
+
+			60% {
+				opacity: 1;
+				transform: translateY(-2px);
+				filter: blur(0);
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+				filter: blur(2px);
+			}
+		}
+
+		@keyframes orbitSpin {
+			from {
+				transform: rotate(0deg);
+			}
+
+			to {
+				transform: rotate(360deg);
+			}
+		}
+
+		/* --- Contact & Support row under roadmap --- */
+
+		/* Ряд с формой и донатами — выравниваем по основному контенту */
+		.roadmap-cta-row {
+			margin-top: 32px;
+			max-width: 1120px;
+			padding: 0 24px;
+			margin-left: auto;
+			margin-right: auto;
+			display: grid;
+			grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+			gap: 24px;
+		}
+
+		@media (max-width: 1024px) {
+			.roadmap-cta-row {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.roadmap-cta-card {
+			position: relative;
+			border-radius: 24px;
+			padding: 24px 24px 22px;
+			background: radial-gradient(circle at top left, rgba(124, 92, 255, 0.18), transparent),
+				radial-gradient(circle at bottom right, rgba(0, 180, 255, 0.14), transparent),
+				rgba(6, 10, 32, 0.96);
+			border: 1px solid rgba(150, 133, 255, 0.46);
+			box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+			backdrop-filter: blur(26px);
+		}
+
+		.roadmap-cta-title {
+			font-size: 20px;
+			font-weight: 600;
+			margin: 0 0 8px;
+		}
+
+		.roadmap-cta-text {
+			margin: 0 0 16px;
+			font-size: 14px;
+			line-height: 1.6;
+			opacity: 0.9;
+		}
+
+		.roadmap-cta-hint {
+			margin-top: 10px;
+			font-size: 12px;
+			line-height: 1.5;
+			opacity: 0.7;
+		}
+
+		/* Кнопки OST (локальные, чтобы ничего не сломать) */
+
+		.ost-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 999px;
+			padding: 9px 20px;
+			font-size: 14px;
+			font-weight: 500;
+			border: 1px solid transparent;
+			cursor: pointer;
+			transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+				background 0.12s ease-out, border-color 0.12s ease-out;
+			text-decoration: none;
+			white-space: nowrap;
+		}
+
+		.ost-btn-primary {
+			background: linear-gradient(135deg, #8f6bff, #6f8dff);
+			color: #fff;
+			box-shadow: 0 10px 24px rgba(117, 96, 255, 0.55);
+		}
+
+		.ost-btn-primary:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 14px 30px rgba(117, 96, 255, 0.7);
+		}
+
+		.ost-btn-secondary {
+			background: rgba(148, 119, 255, 0.14);
+			color: #ffffff;
+			border-color: rgba(163, 140, 255, 0.6);
+		}
+
+		.ost-btn-secondary:hover {
+			background: rgba(148, 119, 255, 0.28);
+		}
+
+		.ost-btn-outline {
+			background: rgba(8, 12, 36, 0.88);
+			color: #e3e6ff;
+			border-color: rgba(174, 186, 255, 0.55);
+		}
+
+		.ost-btn-outline:hover {
+			background: rgba(18, 24, 60, 0.95);
+		}
+
+		.ost-btn-mini {
+			padding: 6px 12px;
+			font-size: 12px;
+			border-radius: 999px;
+			background: rgba(26, 32, 72, 0.9);
+			color: #dbe2ff;
+			border-color: rgba(136, 162, 255, 0.7);
+		}
+
+		.ost-btn-mini:hover {
+			background: rgba(38, 44, 86, 1);
+		}
+
+		/* Форма контактов */
+
+		.join-ost-form {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 14px 20px;
+			margin: 14px 0 4px;
+		}
+
+		.join-ost-form-group {
+			flex: 1 1 190px;
+			min-width: 0;
+		}
+
+		.join-ost-form-group--full {
+			flex: 1 1 100%;
+		}
+
+		.join-ost-form label {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			font-size: 12px;
+		}
+
+		.join-ost-form label span {
+			opacity: 0.8;
+		}
+
+		.join-ost-form input,
+		.join-ost-form select,
+		.join-ost-form textarea {
+			border-radius: 14px;
+			padding: 8px 12px;
+			border: 1px solid rgba(120, 135, 255, 0.55);
+			background: rgba(10, 14, 40, 0.95);
+			color: #f5f5ff;
+			font-size: 13px;
+			outline: none;
+		}
+
+		.join-ost-form textarea {
+			resize: vertical;
+			min-height: 80px;
+		}
+
+		.join-ost-form input::placeholder,
+		.join-ost-form textarea::placeholder {
+			opacity: 0.6;
+		}
+
+		/* Карточка с кошельком */
+
+		.support-ost-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 16px;
+		}
+
+		.support-wallet {
+			margin-top: 16px;
+			padding: 14px 14px 12px;
+			border-radius: 18px;
+			background: rgba(4, 12, 36, 0.96);
+			border: 1px dashed rgba(151, 179, 255, 0.55);
+			display: none;
+		}
+
+		.support-wallet.is-open {
+			display: block;
+		}
+
+		.support-wallet-qr {
+			width: 120px;
+			border-radius: 12px;
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		.support-wallet-network {
+			font-size: 12px;
+			opacity: 0.85;
+			margin: 0 0 8px;
+		}
+
+		.support-wallet-address-block {
+			font-size: 12px;
+		}
+
+		.support-wallet-label-row {
+			margin-bottom: 4px;
+			opacity: 0.75;
+		}
+
+		.support-wallet-address-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+
+		.support-wallet-address-row code {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+				"Liberation Mono", "Courier New", monospace;
+			font-size: 11px;
+			word-break: break-all;
+			padding: 6px 8px;
+			border-radius: 10px;
+			background: rgba(12, 20, 56, 0.9);
+		}
+
+		/* RESPONSIVE */
+
+		@media (max-width: 900px) {
+			.nav {
+				display: none;
+			}
+
+			.hero-inner {
+				grid-template-columns: minmax(0, 1fr);
+				gap: 26px;
+			}
+
+			.hero {
+				padding-top: 40px;
+			}
+		}
+
+		@media (max-width: 600px) {
+			.section {
+				padding: 30px 0;
+			}
+
+			.hero-title-outline,
+			.hero-title-fill {
+				letter-spacing: 0.14em;
+			}
+
+			.footer-inner {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+	</style>
+</head>
+
+<body data-theme="dark" id="top" class="dark-theme">
+	<header class="header">
+		<div class="container header-inner">
+			<a href="#top" class="logo-block logo-link">
+				<div class="logo-mark">
+					<img src="logo-ost.png" alt="OneSelfTechnology">
+				</div>
+				<div class="logo-text">
+					<span class="logo-title">OneSelfTechnology</span>
+					<span class="logo-subtitle" data-i18n="logoSubtitle">AI-платформа личной дисциплины</span>
+				</div>
+			</a>
+			<nav class="nav">
+				<a href="#problem" data-i18n="navProblem">Проблема</a>
+				<a href="#solution" data-i18n="navSolution">Решение</a>
+				<a href="#tariffs" data-i18n="navTariffs">Тарифы</a>
+				<a href="#scenarios" data-i18n="navHow">Как работает</a>
+				<a href="#about" data-i18n="navAbout">О проекте</a>
+			</nav>
+			<div class="header-right">
+				<button class="theme-toggle" id="themeToggle">Dark</button>
+				<div class="lang-switch">
+					<button class="lang-btn active" data-lang="ru">RU</button>
+					<button class="lang-btn" data-lang="en">EN</button>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<!-- HERO -->
+		<section class="hero" id="top">
+			<div class="hero-bg">
+				<div class="hero-bg-layer hero-bg-orbit"></div>
+				<div class="hero-bg-layer hero-bg-grid"></div>
+			</div>
+
+			<div class="container hero-inner">
+				<div class="hero-left">
+					<div class="hero-3d-stage">
+						<div class="hero-tiles" id="heroTiles">
+							<div class="hero-tile hero-tile-1">
+								<div class="hero-tile-label">Self · Discipline</div>
+								<div class="hero-tile-accent"></div>
+							</div>
+							<div class="hero-tile hero-tile-2">
+								<div class="hero-tile-label">AI · Dialogs</div>
+								<div class="hero-tile-accent"></div>
+							</div>
+							<div class="hero-tile hero-tile-3">
+								<div class="hero-tile-label">Daily · Check-in</div>
+								<div class="hero-tile-accent"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="hero-tag" data-i18n="heroTag">
+						Новая эра личной дисциплины
+					</div>
+
+					<div class="hero-title-wrapper">
+						<div class="hero-title-outline">OneSelfTechnology</div>
+						<div class="hero-title-fill">OneSelfTechnology</div>
+					</div>
+
+					<p class="hero-subtitle" data-i18n="heroSubtitle">
+						AI-платформа и Telegram-бот-наставник, который помогает перестать прокрастинировать, выстроить устойчивые
+						привычки и каждый день делать шаги к своим целям.
+					</p>
+
+					<div class="hero-actions">
+						<a href="#cta" class="btn primary" data-i18n="heroBtnPrimary">Запустить свою систему</a>
+						<a href="#solution" class="btn ghost" data-i18n="heroBtnSecondary">Посмотреть, как это работает</a>
+					</div>
+
+					<div class="hero-meta">
+						<p class="hero-contacts">
+							oneselftechnology.com · support@OneSelfTechnology.com
+						</p>
+					</div>
+				</div>
+
+				<div class="hero-right">
+					<div class="hero-orbit-card hero-chat-card" id="heroOrbit">
+						<div class="hero-orbit-ring"></div>
+						<div class="hero-orbit-inner">
+							<div class="hero-orbit-header">
+								<span data-i18n="heroPanelTitle">Сегодня</span>
+								<span class="text-muted">OST · v0.1</span>
+							</div>
+							<div class="hero-orbit-body">
+								<p data-i18n="heroPanelText1">
+									«Давай выберем одно главное дело на сегодня и сделаем его до обеда. Что это будет?»
+								</p>
+								<div class="hero-orbit-row">
+									<div class="hero-orbit-pill">
+										<span>🔁</span>
+										<span data-i18n="heroPanelPill1">Утренняя рутина</span>
+									</div>
+									<div class="hero-orbit-pill">
+										<span>📊</span>
+										<span data-i18n="heroPanelPill2">Прогресс недели</span>
+									</div>
+								</div>
+								<div class="hero-orbit-row">
+									<p style="font-size:12px; margin-top:10px;" data-i18n="heroPanelText2">
+										AI-наставник отслеживает маленькие шаги, чтобы вы не теряли фокус на больших целях.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ПРОБЛЕМА -->
+		<section class="section" id="problem">
+			<div class="container">
+				<h2 class="reveal" data-i18n="problemTitle">Почему привычные подходы к саморазвитию не работают</h2>
+				<p class="section-intro reveal" data-i18n="problemIntro">
+					Цифровая среда перегружена контентом и «марафонами», но это редко приводит к устойчивым изменениям поведения.
+				</p>
+				<div class="grid two-columns">
+					<div class="card reveal">
+						<h3 data-i18n="problem1Title">Инфошум вместо системы</h3>
+						<p data-i18n="problem1Text">
+							Курсы и ролики дают вдохновение, но не встраиваются в день. Через пару недель мотивация падает, а привычки
+							не закрепляются.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="problem2Title">Нет ежедневной поддержки</h3>
+						<p data-i18n="problem2Text">
+							Коуч дорогой и не доступен 24/7. В критические моменты человек остаётся один на один с откладыванием и
+							сомнениями.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="problem3Title">Одинаковые советы для всех</h3>
+						<p data-i18n="problem3Text">
+							Большинство решений почти не учитывают контекст: уровень дисциплины, загрузку, цели. Всем дают одинаковый
+							чек-лист.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="problem4Title">Цели не связаны с днём</h3>
+						<p data-i18n="problem4Text">
+							Цели записаны в блокноте, день живёт сам по себе. Нет простого механизма каждый день проверять, приближает
+							ли вас то, что вы делаете.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- РЕШЕНИЕ -->
+		<section class="section section-alt" id="solution">
+			<div class="container">
+				<h2 class="reveal" data-i18n="solutionTitle">Что такое OneSelfTechnology</h2>
+				<p class="section-intro reveal" data-i18n="solutionIntro">
+					OST — это AI-платформа личной дисциплины. Первый шаг — Telegram-бот-наставник, встроенный в ваш день.
+				</p>
+				<div class="grid two-columns">
+					<div class="card reveal">
+						<h3 data-i18n="solution1Title">Диагностика и профиль</h3>
+						<p data-i18n="solution1Text">
+							Короткий опрос помогает зафиксировать ваши цели, текущий уровень дисциплины, ограничения по времени и
+							эмоциональный фон.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="solution2Title">Личный план и фокус</h3>
+						<p data-i18n="solution2Text">
+							На основе профиля OST формирует адаптивный план: от поиска вектора до конкретных шагов на ближайшие
+							недели.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="solution3Title">Ежедневные диалоги</h3>
+						<p data-i18n="solution3Text">
+							Утренние и вечерние рутины, поддерживающие диалоги и мягкие напоминания помогают не выпадать из процесса.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="solution4Title">Прогресс и корректировка</h3>
+						<p data-i18n="solution4Text">
+							Раз в неделю и месяц OST фиксирует, что получилось, где были провалы, и предлагает гипотезы, что изменить.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CASES -->
+		<section class="section section-alt" id="cases">
+			<div class="container">
+				<h2 class="reveal">Как OST помогает в реальной жизни</h2>
+
+				<div class="cases-grid">
+					<div class="card case-card">
+						<div class="case-image">
+							<img src="case-weightloss-ost.jpg" alt="Спокойная прогулка, отслеживание шагов и мягкая работа над собой">
+						</div>
+						<h3>«Хочу похудеть без срывов»</h3>
+						<p>
+							Вместо жёстких марафонов — маленькие действия каждый день: вода, шаги,
+							сон, питание. AI-наставник мягко напоминает и помогает не «забить»
+							после первой ошибки.
+						</p>
+					</div>
+
+					<div class="card case-card">
+						<div class="case-image">
+							<img src="case-content-ost.jpg" alt="Создатель контента с ноутбуком и планом съёмок">
+						</div>
+						<h3>«Хочу регулярно делать контент»</h3>
+						<p>
+							План съёмок, идеи роликов, разбор блокеров и поддержка после первых
+							провалов — OST помогает не бросать канал после 3–4 видео.
+						</p>
+					</div>
+
+					<div class="card case-card">
+						<div class="case-image">
+							<img src="case-ai-ost.jpg" alt="Специалист работает с AI-ассистентом на ноутбуке">
+						</div>
+						<h3>«Хочу научиться использовать AI в работе»</h3>
+						<p>
+							Пошаговые челленджи: от первых запросов к модели до построения своих
+							рабочих сценариев. Без перегруза теорией, через практику.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ДЛЯ КОГО -->
+		<section class="section" id="segments">
+			<div class="container">
+				<h2 class="reveal" data-i18n="segmentsTitle">Кому подойдёт OST</h2>
+				<p class="section-intro reveal" data-i18n="segmentsIntro">
+					Платформа нацелена на людей, которые хотят системно работать над собой, но не готовы к дорогим коучам и
+					жёстким марафонам.
+				</p>
+
+				<div class="segments-grid">
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="segment-students-ost.png" alt="Студент с ноутбуком и книгами">
+						</div>
+						<h3>Студентам и начинающим специалистам</h3>
+						<p>
+							Помогает совмещать учёбу, работу и личные цели без ощущения хаоса
+							и вечного «не успеваю».
+						</p>
+					</div>
+
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="case-smallboy.png" alt="Фрилансер или самозанятый за ноутбуком">
+						</div>
+						<h3>Фрилансерам и самозанятым</h3>
+						<p>
+							Даёт внешний контур дисциплины, когда нет начальника и жёсткого графика,
+							но есть дедлайны и ответственность.
+						</p>
+					</div>
+
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="case-bisnessparter.png" alt="Предприниматель и команда обсуждают задачи">
+						</div>
+						<h3>Предпринимателям и тем, кто ищет себя</h3>
+						<p>
+							Помогает не растворяться в бесконечном списке дел, а держать фокус
+							на действительно важных шагах.
+						</p>
+					</div>
+
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="segment-family-ost.png" alt="Родитель и ребёнок, совместное обучение">
+						</div>
+						<h3>Семьям</h3>
+						<p>
+							Родители могут отслеживать прогресс детей, формировать совместные
+							челленджи и поддерживать дисциплину всей семьи.
+						</p>
+					</div>
+
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="case-couh.png" alt="Коуч ведёт группу участников">
+						</div>
+						<h3>Коучам и наставникам</h3>
+						<p>
+							OST становится фоном между сессиями: участники делают маленькие шаги
+							каждый день, а вы видите их вовлечённость.
+						</p>
+					</div>
+
+					<div class="card segment-card">
+						<div class="segment-icon">
+							<img src="segment-team-ost.png" alt="Команда у большого экрана с задачами">
+						</div>
+						<h3>Командам и небольшим бизнесам</h3>
+						<p>
+							Помогает выстраивать привычку доводить задачи до конца, а не «гореть»
+							только в момент дедлайна.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- КРАТКО ТАРИФЫ (каркас, можно доработать позже) -->
+		<section class="section" id="tariffs">
+			<div class="container">
+				<h2 class="reveal" data-i18n="tariffsTitle">Тарифы платформы (проектный уровень)</h2>
+				<p class="section-intro reveal" data-i18n="tariffsIntro">
+					В дипломном проекте заложены три уровня подписки: личный, семейный и командный. Ценообразование строится
+					вокруг низкого порога входа и честной ценности.
+				</p>
+				<div class="grid three-columns">
+					<div class="card reveal">
+						<h3 data-i18n="tariffSoloTitle">Личный</h3>
+						<p><strong data-i18n="tariffSoloPrice">≈ 1 990 ₽/мес</strong></p>
+						<p class="text-muted" data-i18n="tariffSoloText">
+							1 пользователь, базовые сценарии и челленджи, персональный AI-наставник 24/7.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="tariffFamilyTitle">Семейный</h3>
+						<p><strong data-i18n="tariffFamilyPrice">≈ 3 490 ₽/мес</strong></p>
+						<p class="text-muted" data-i18n="tariffFamilyText">
+							До 4 пользователей, родительский кабинет, совместные челленджи и контроль прогресса.
+						</p>
+					</div>
+					<div class="card reveal">
+						<h3 data-i18n="tariffTeamTitle">Командный</h3>
+						<p><strong data-i18n="tariffTeamPrice">≈ 19 900 ₽/мес</strong></p>
+						<p class="text-muted" data-i18n="tariffTeamText">
+							До 100 участников, панель коуча/лидера, отчёты по вовлечённости и динамике.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- СЦЕНАРИИ ДИАЛОГОВ -->
+		<section class="section section-alt" id="scenarios">
+			<div class="container">
+				<div class="scenarios-layout">
+					<div class="reveal">
+						<h2 data-i18n="scenariosTitle">Как OST работает в разных сценариях</h2>
+						<p class="section-intro" data-i18n="scenariosIntro">
+							Ниже — три примера диалогов, показывающих, как AI-наставник ведёт пользователя: от постановки цели до
+							ежедневных шагов и мягкого контроля.
+						</p>
+
+						<div class="scenario-tabs">
+							<button class="scenario-tab active" data-scenario-tab="personal" data-i18n="scenariosTabPersonal">
+								Личный · «Хочу похудеть без срывов»
+							</button>
+							<button class="scenario-tab" data-scenario-tab="family" data-i18n="scenariosTabFamily">
+								Семейный · «Дисциплина ребёнка»
+							</button>
+							<button class="scenario-tab" data-scenario-tab="team" data-i18n="scenariosTabTeam">
+								Командный · «Фокус команды»
+							</button>
+						</div>
+
+						<p class="text-muted" style="font-size:12px;" data-i18n="scenariosNote">
+							Тексты — иллюстрации логики MVP: короткие вопросы, фокус на одном шаге, ежедневная обратная связь и связь
+							с целями.
+						</p>
+					</div>
+
+					<div class="reveal">
+						<div class="scenario-card">
+							<div class="scenario-meta">
+								<div>
+									<div style="font-size:12px; opacity:0.86;" data-i18n="scenariosMetaLabel">Фрагмент диалога с
+										AI-наставником</div>
+									<div class="scenario-tagline" id="scenarioTagline" data-i18n="scenariosTaglinePersonal">
+										Тариф «Личный» · запрос «Хочу похудеть без срывов»
+									</div>
+								</div>
+								<div style="font-size:11px; opacity:0.7;">OST · beta</div>
+							</div>
+
+							<!-- Сценарий: личный -->
+							<div class="scenario-chat active" data-scenario="personal">
+								<div class="chat-badge">
+									<span>🔥</span>
+									<span data-i18n="scenarioPersonalBadge">Цель: похудеть без жёстких марафонов</span>
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioPersonalU1">
+									Я уже много раз пытался похудеть, но каждый раз срываюсь через неделю и всё бросаю.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioPersonalB1">
+									Давай без жёстких марафонов. Скажи честно: сколько времени ты реально готов уделять в день работе над
+									собой?
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioPersonalU2">
+									Думаю, максимум 20–30 минут в день.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioPersonalB2">
+									Принял. Я соберу план из маленьких шагов: вода, шаги, сон, питание. Сегодня начнём с двух простых
+									действий. Готов?
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioPersonalU3">
+									Да, давай, главное — чтобы без перегруза.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioPersonalB3">
+									На сегодня: 1) 15 минут ходьбы. 2) Не есть за 2 часа до сна. Я напомню днём и вечером спрошу, как
+									прошло, чтобы скорректировать план.
+								</div>
+							</div>
+
+							<!-- Сценарий: семейный -->
+							<div class="scenario-chat" data-scenario="family">
+								<div class="chat-badge">
+									<span>👨‍👩‍👧</span>
+									<span data-i18n="scenarioFamilyBadge">Цель: мягкий контроль учёбы ребёнка</span>
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioFamilyU1">
+									Дочь постоянно откладывает домашку. Не хочу устраивать контроль тотальный, но переживаю за оценки.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioFamilyB1">
+									Давай начнём с одного маленького ритуала. В какое примерно время дочка обычно садится за уроки?
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioFamilyU2">
+									Обычно после 18:00, но часто тянет до ночи.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioFamilyB2">
+									Я настрою мягкое напоминание ей и вам в 18:15 с коротким чек-листом. Вечером вы получите отчёт: что
+									сделано и где понадобилась помощь.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioFamilyB3">
+									Через неделю покажу, сколько дней удаётся уложиться в «окно» и предложу совместный челлендж для
+									мотивации без давления.
+								</div>
+							</div>
+
+							<!-- Сценарий: командный -->
+							<div class="scenario-chat" data-scenario="team">
+								<div class="chat-badge">
+									<span>🚀</span>
+									<span data-i18n="scenarioTeamBadge">Цель: фокус команды на ключевых задачах</span>
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioTeamU1">
+									Команда постоянно горит в дедлайны. Задачи дробим, но люди забывают про самые важные.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioTeamB1">
+									Давай зафиксируем до 3 ключевых задач на неделю для команды. Можешь перечислить их простым списком?
+								</div>
+								<div class="chat-bubble user" data-i18n="scenarioTeamU2">
+									1) Выпуск релиза, 2) Закрыть баги по критике, 3) Подготовить демо для клиента.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioTeamB2">
+									Ок. Я разошлю участникам короткие ежедневные чек-ины: «Что сегодня сделал для одной из трёх задач?» и
+									соберу сводку для вас.
+								</div>
+								<div class="chat-bubble bot" data-i18n="scenarioTeamB3">
+									На демо покажу, сколько дней команда была в фокусе по каждой цели. Это поможет спокойно обсудить
+									реальные ограничения, а не искать «виноватых».
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- CTA -->
+		<section class="section section-alt" id="cta">
+			<div class="container">
+				<h2 class="reveal" data-i18n="ctaTitle">Этап: подготовка к пилоту OST</h2>
+				<p class="section-intro reveal" data-i18n="ctaText">
+					Сейчас OneSelfTechnology находится на уровне дипломного проекта и проектирования MVP. Следующий шаг — пилот на
+					ограниченной аудитории с проверкой метрик удержания и экономики.
+				</p>
+				<div class="card reveal">
+					<p class="text-muted" data-i18n="ctaNote">
+						Этот сайт — демонстрационный прототип под защиту диплома. Текст и структура отражают продуктовый подход,
+						экономику и план развития, описанные в работе.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- ROADMAP -->
+		<section class="section" id="roadmap">
+			<div class="container">
+				<h2 class="reveal" data-i18n="roadmapTitle">Дорожная карта проекта OST</h2>
+				<p class="section-intro reveal" data-i18n="roadmapIntro">
+					В дипломе заложен реалистичный путь развития: от MVP в Telegram до масштабируемой платформы с несколькими
+					доменами и B2B-направлением.
+				</p>
+
+				<div class="roadmap-grid">
+					<div class="card roadmap-step reveal">
+						<div class="roadmap-step-number">1</div>
+						<h3 data-i18n="roadmap1Title">Проектирование и MVP Telegram-бота</h3>
+						<p data-i18n="roadmap1Text">
+							Описание логики сценариев, архитектуры, метрик и экономики. Реализация MVP-бота с основными диалогами и
+							управлением привычками.
+						</p>
+						<p class="roadmap-step-meta" data-i18n="roadmap1Meta">
+							Горизонт: до 12 месяцев. Результат: рабочий MVP для первых пользователей.
+						</p>
+					</div>
+
+					<div class="card roadmap-step reveal">
+						<div class="roadmap-step-number">2</div>
+						<h3 data-i18n="roadmap2Title">Пилот и проверка гипотез</h3>
+						<p data-i18n="roadmap2Text">
+							Тестирование на ограниченной аудитории: Retention D7/D28, активность диалогов, конверсия в оплату и
+							обратная связь пользователей.
+						</p>
+						<p class="roadmap-step-meta" data-i18n="roadmap2Meta">
+							Горизонт: 3–6 месяцев после MVP. Результат: подтверждение или пересборка ключевых гипотез.
+						</p>
+					</div>
+
+					<div class="card roadmap-step reveal">
+						<div class="roadmap-step-number">3</div>
+						<h3 data-i18n="roadmap3Title">Версия 1.0 платформы OST</h3>
+						<p data-i18n="roadmap3Text">
+							Развитие личного, семейного и командного тарифов, улучшение онбординга, расширение сценариев и аналитики
+							прогресса.
+						</p>
+						<p class="roadmap-step-meta" data-i18n="roadmap3Meta">
+							Горизонт: 1–2 года от старта MVP. Результат: продукт с устойчивой экономикой и повторяемой моделью продаж.
+						</p>
+					</div>
+
+					<div class="card roadmap-step reveal">
+						<div class="roadmap-step-number">4</div>
+						<h3 data-i18n="roadmap4Title">Масштабирование и новые домены</h3>
+						<p data-i18n="roadmap4Text">
+							Запуск модулей по направлениям Self / Career / Fitness / Team, интеграции с календарями, носимыми
+							устройствами и B2B-партнёрства.
+						</p>
+						<p class="roadmap-step-meta" data-i18n="roadmap4Meta">
+							Горизонт: 3+ года. Результат: экосистема OST как платформа поведенческих изменений.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- NEW: контакт + финансовая поддержка OST под roadmap -->
+		<div class="roadmap-cta-row">
+
+			<!-- Блок 1. Присоединиться к проекту / оставить контакты -->
+			<section class="roadmap-cta-card" id="join-ost-card">
+				<h3 class="roadmap-cta-title" data-i18n="contactSupport.joinTitle">
+					Присоединиться к проекту OST
+				</h3>
+				<p class="roadmap-cta-text" data-i18n="contactSupport.joinText">
+					Оставьте контакты, если хотите попасть в пилот, предложить партнёрство
+					или обсудить участие в развитии платформы.
+				</p>
+
+				<form id="join-ost-form" class="join-ost-form">
+					<div class="join-ost-form-group">
+						<label>
+							<span data-i18n="contactSupport.formName">Имя</span>
+							<input type="text" name="name" required />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>
+							<span data-i18n="contactSupport.formEmail">Email</span>
+							<input type="email" name="email" required />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>
+							<span data-i18n="contactSupport.formRole">Роль</span>
+							<select name="role" required>
+								<option value="" disabled selected hidden></option>
+								<option value="user" data-i18n="contactSupport.formRoleUser">
+									Потенциальный пользователь
+								</option>
+								<option value="investor" data-i18n="contactSupport.formRoleInvestor">
+									Инвестор / меценат
+								</option>
+								<option value="partner" data-i18n="contactSupport.formRolePartner">
+									Партнёр / компания
+								</option>
+								<option value="other" data-i18n="contactSupport.formRoleOther">
+									Другое
+								</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="join-ost-form-group">
+						<label>
+							<span data-i18n="contactSupport.formTelegram">Telegram (опционально)</span>
+							<input type="text" name="telegram" placeholder="@username" />
+						</label>
+					</div>
+
+					<div class="join-ost-form-group join-ost-form-group--full">
+						<label>
+							<span data-i18n="contactSupport.formComment">Комментарий (опционально)</span>
+							<textarea name="comment" rows="3"></textarea>
+						</label>
+					</div>
+
+					<button type="submit" class="ost-btn ost-btn-primary" data-i18n="contactSupport.formSubmit">
+						Отправить контакт
+					</button>
+				</form>
+
+				<p class="roadmap-cta-hint" data-i18n="contactSupport.joinHint">
+					При отправке откроется ваш почтовый клиент с подготовленным письмом на
+					support@OneSelfTechnology.com — вы сможете отредактировать письмо перед отправкой.
+				</p>
+			</section>
+
+			<!-- Блок 2. Поддержать проект финансово -->
+			<section class="roadmap-cta-card" id="support-ost-card">
+				<h3 class="roadmap-cta-title" data-i18n="contactSupport.supportTitle">
+					Поддержать развитие OST
+				</h3>
+				<p class="roadmap-cta-text" data-i18n="contactSupport.supportText">
+					Если вам близка идея OST и вы хотите ускорить запуск, вы можете поддержать
+					проект финансово. Средства пойдут на разработку MVP, инфраструктуру и UX-исследования.
+				</p>
+
+				<div class="support-ost-actions">
+					<a class="ost-btn ost-btn-secondary" href="https://boosty.to/kirillmegasoft/blog/statistics" target="_blank"
+						rel="noopener" data-i18n="contactSupport.supportBoosty">
+						Поддержать на Boosty
+					</a>
+
+					<button type="button" class="ost-btn ost-btn-outline" id="wallet-toggle-ost"
+						data-i18n="contactSupport.supportWallet">
+						Показать USDT-кошелёк
+					</button>
+				</div>
+
+				<div class="support-wallet" id="wallet-details-ost">
+					<!-- QR: просто сохрани скрин как images/usdt-wallet-ost.png рядом с index.html -->
+					<img src="usdt-wallet-ost.png" alt="USDT депозит OST, сеть BSC (BEP20)" class="support-wallet-qr" />
+
+					<p class="support-wallet-network" data-i18n="contactSupport.walletNetwork">
+						Сеть: BSC (BEP20)
+					</p>
+
+					<div class="support-wallet-address-block">
+						<div class="support-wallet-label-row">
+							<span data-i18n="contactSupport.walletAddressLabel">
+								Адрес кошелька
+							</span>
+						</div>
+
+						<div class="support-wallet-address-row">
+							<code id="wallet-address-ost">
+								0x2a9ad41d12df2ef121311a7b6c49fbdcb32b645f
+							</code>
+							<button type="button" class="ost-btn ost-btn-mini" id="wallet-copy-ost"
+								data-i18n="contactSupport.walletCopy">
+								Скопировать
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+		<!-- /NEW: контакт + поддержка -->
+
+		<!-- ABOUT -->
+		<section class="section" id="about">
+			<div class="container about-layout">
+				<div class="reveal">
+					<div class="author-header">
+						<div class="author-avatar">
+							<img src="author-kirill-ost.png" alt="Кирилл Глущенко">
+						</div>
+						<div>
+							<div class="author-name">Кирилл Глущенко</div>
+							<div class="author-role">Project Manager в IT, автор OST</div>
+						</div>
+					</div>
+					<h2 data-i18n="aboutTitle">О проекте и авторе</h2>
+					<p class="text-muted" data-i18n="aboutText1">
+						OneSelfTechnology разработан как итоговый проект на курсе «Профессия менеджер проектов» (Skillbox). Проект
+						включает полный цикл: от анализа проблемы до архитектуры, метрик, экономики и дорожной карты.
+					</p>
+					<p class="text-muted" data-i18n="aboutText2">
+						Автор проекта — Кирилл Глущенко, Project Manager в IT. Цель — превратить OST из учебного кейса в реальный
+						продукт с устойчивой экономикой и пользой для людей, которые хотят системно работать над собой.
+					</p>
+				</div>
+				<div class="card reveal experts-card">
+					<h3 data-i18n="expertsTitle">Для экспертов Skillbox</h3>
+					<p class="text-muted" data-i18n="expertsText">
+						Лендинг собран как визуализация дипломного проекта: показывает концепцию продукта, сегменты пользователей,
+						уровни подписки и этап MVP → пилот → масштабирование. Все цифры и формулировки могут уточняться при
+						переходе к разработке.
+					</p>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="footer">
+		<div class="container footer-inner">
+			<span>© <span id="year"></span> OneSelfTechnology</span>
+			<div class="footer-links">
+				<a href="#" data-i18n="footerPolicy">Политика конфиденциальности (проект)</a>
+				<a href="#" data-i18n="footerTerms">Условия использования (проект)</a>
+			</div>
+		</div>
+	</footer>
+
+	<script>
+		// Год в футере
+		document.getElementById('year').textContent = new Date().getFullYear();
+
+		// 3D-параллакс: движение прямоугольников и карточки справа
+		const tilesStage = document.getElementById('heroTiles');
+		const heroOrbit = document.getElementById('heroOrbit');
+		const tiles = document.querySelectorAll('.hero-tile');
+
+		window.addEventListener('mousemove', (e) => {
+			const x = (e.clientX / window.innerWidth) - 0.5;
+			const y = (e.clientY / window.innerHeight) - 0.5;
+
+			const rotateX = (-y * 10).toFixed(2);
+			const rotateY = (x * 14).toFixed(2);
+			tilesStage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+			tiles.forEach((tile, index) => {
+				const depth = (index + 1) * 18;
+				const tx = (x * depth).toFixed(2);
+				const ty = (y * depth).toFixed(2);
+				tile.style.transform = `translate3d(${tx}px, ${ty}px, ${depth}px)`;
+			});
+
+			if (heroOrbit) {
+				const orbitX = (-y * 6).toFixed(2);
+				const orbitY = (x * 8).toFixed(2);
+				heroOrbit.style.transform = `rotateX(${orbitX}deg) rotateY(${orbitY}deg) translateZ(0)`;
+			}
+		});
+
+		window.addEventListener('scroll', () => {
+			const scrollY = window.scrollY;
+			const offset = scrollY * 0.04;
+			tilesStage.style.transform += ` translateY(${offset}px)`;
+		});
+
+		// Reveal при скролле
+		const revealEls = document.querySelectorAll('.reveal');
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('in-view');
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.15 });
+
+		revealEls.forEach(el => observer.observe(el));
+
+		// Языки
+		const translations = {
+			en: {
+				logoSubtitle: "AI platform for self-discipline",
+				navProblem: "Problem",
+				navSolution: "Solution",
+				navHow: "How it works",
+				navTariffs: "Pricing",
+				navAbout: "About",
+				heroTag: "A new era of self-discipline",
+				heroSubtitle: "An AI platform and Telegram mentor that helps you stop procrastinating, build habits and move towards your goals every day.",
+				heroBtnPrimary: "Launch your system",
+				heroBtnSecondary: "See how it works",
+				heroPanelTitle: "Today",
+				heroPanelText1: "“Let's pick one key task for today and finish it before noon. What will it be?”",
+				heroPanelPill1: "Morning routine",
+				heroPanelPill2: "Week progress",
+				heroPanelText2: "The AI mentor tracks small steps so you don’t lose focus on the bigger goals.",
+				problemTitle: "Why typical self-development tools do not work",
+				problemIntro: "The digital space is overloaded with content and challenges, but this rarely leads to sustainable behavior change.",
+				problem1Title: "Info-noise instead of system",
+				problem1Text: "Courses and videos give inspiration but don’t integrate into your day. After a couple of weeks motivation drops, habits don’t stick.",
+				problem2Title: "No daily support",
+				problem2Text: "A coach is expensive and not available 24/7. In critical moments people are left alone with procrastination and doubt.",
+				problem3Title: "Same advice for everyone",
+				problem3Text: "Most tools barely consider your context: discipline level, workload, goals. Everyone gets the same checklist.",
+				problem4Title: "Goals aren’t linked to the day",
+				problem4Text: "Goals live in a notebook, the day lives on its own. There is no simple daily link between actions and what really matters.",
+				solutionTitle: "What is OneSelfTechnology",
+				solutionIntro: "OST is an AI platform for self-discipline. The first step is a Telegram AI mentor embedded into your day.",
+				solution1Title: "Diagnostics and profile",
+				solution1Text: "A short questionnaire fixes your goals, discipline level, time constraints and emotional context.",
+				solution2Title: "Personal plan and focus",
+				solution2Text: "Based on the profile, OST forms an adaptive plan: from direction discovery to concrete steps for the next weeks.",
+				solution3Title: "Daily dialogues",
+				solution3Text: "Morning and evening routines, support dialogues and gentle nudges keep you in motion.",
+				solution4Title: "Progress and adjustment",
+				solution4Text: "Weekly and monthly OST reflects what worked, what didn’t and suggests hypotheses on what to change.",
+				tariffsTitle: "Platform pricing (project level)",
+				tariffsIntro: "The project model includes three subscription tiers: personal, family and team. Pricing focuses on a low entry barrier and fair value.",
+				tariffSoloTitle: "Solo",
+				tariffSoloPrice: "≈ 1 990 ₽/month",
+				tariffSoloText: "1 user, base scenarios and challenges, personal AI mentor 24/7.",
+				tariffFamilyTitle: "Family",
+				tariffFamilyPrice: "≈ 3 490 ₽/month",
+				tariffFamilyText: "Up to 4 users, parent dashboard, shared challenges and progress tracking.",
+				tariffTeamTitle: "Team",
+				tariffTeamPrice: "≈ 19 900 ₽/month",
+				tariffTeamText: "Up to 100 participants, coach/lead dashboard, engagement & progress reports.",
+				ctaTitle: "Stage: preparing the OST pilot",
+				ctaText: "OneSelfTechnology is currently at the diploma-project and MVP-design stage. The next step is a pilot with a limited audience and metrics validation.",
+				ctaNote: "This site is a demo prototype for the diploma defense. Text and structure reflect the product thinking, economics and roadmap described in the project.",
+				aboutTitle: "About the project and the author",
+				aboutText1: "OneSelfTechnology was designed as a final project on the “Project Management” course (Skillbox). It covers the full cycle: from problem analysis to architecture, metrics, economics and roadmap.",
+				aboutText2: "The author is Kirill Glushchenko, an IT Project Manager. The goal is to turn OST from an academic case into a real product with sustainable economics and value for people who want to work on themselves systematically.",
+				expertsTitle: "For Skillbox experts",
+				expertsText: "This landing page visualizes the diploma project: it shows the product concept, user segments, subscription tiers, and the MVP → pilot → scale path. All numbers and formulations can be refined in real development.",
+				scenariosTitle: "How OST works in real scenarios",
+				scenariosIntro: "Here are three dialogue examples that show how the AI mentor guides a user: from the initial request to daily steps and soft control.",
+				scenariosTabPersonal: "Solo · “Lose weight without burnout”",
+				scenariosTabFamily: "Family · “Child discipline”",
+				scenariosTabTeam: "Team · “Team focus”",
+				scenariosNote: "These texts illustrate the MVP logic: short questions, one key step at a time, daily feedback and a clear link to goals.",
+				scenariosMetaLabel: "Fragment of a dialogue with the AI mentor",
+				scenariosTaglinePersonal: "Solo plan · goal “Lose weight without burnout”",
+				scenarioPersonalBadge: "Goal: lose weight without hard challenges",
+				scenarioPersonalU1: "I’ve tried to lose weight many times, but after a week I fail and quit.",
+				scenarioPersonalB1: "Let’s skip hard challenges. Honestly, how much time per day are you ready to invest in yourself?",
+				scenarioPersonalU2: "Maybe 20–30 minutes a day.",
+				scenarioPersonalB2: "Got it. I’ll build a plan from small steps: water, steps, sleep, food. Today we’ll start with two simple actions. Ready?",
+				scenarioPersonalU3: "Yes, let’s try, but without overload.",
+				scenarioPersonalB3: "For today: 1) 15 minutes walking. 2) No food 2 hours before sleep. I’ll remind you and check in the evening to adjust the plan.",
+				scenarioFamilyBadge: "Goal: gentle control of child’s study",
+				scenarioFamilyU1: "My daughter keeps postponing homework. I don’t want total control, but I worry about her grades.",
+				scenarioFamilyB1: "Let’s start with one small ritual. Around what time does she usually sit down to study?",
+				scenarioFamilyU2: "Usually after 6pm, but often drags it till late night.",
+				scenarioFamilyB2: "I’ll set a soft reminder for her and you at 18:15 with a small checklist. In the evening you’ll see a short report of what she did and where help was needed.",
+				scenarioFamilyB3: "After a week I’ll show how many days she stayed within the “window” and suggest a joint challenge to motivate without pressure.",
+				scenarioTeamBadge: "Goal: keep the team focused on key tasks",
+				scenarioTeamU1: "The team constantly burns at deadlines. We break tasks down, but people forget about the most important ones.",
+				scenarioTeamB1: "Let’s fix up to three key goals for the week. Can you list them?",
+				scenarioTeamU2: "1) Release, 2) Close critical bugs, 3) Prepare client demo.",
+				scenarioTeamB2: "Okay. I’ll send each member a short daily check-in: “What have you done today for one of the three goals?” and collect a summary for you.",
+				scenarioTeamB3: "At the demo I’ll show how many days the team stayed focused on each goal. This helps discuss real constraints calmly instead of looking for someone to blame.",
+				segmentsTitle: "Who OST is for",
+				segmentsIntro: "The platform targets people who want to work on themselves systematically, but are not ready for expensive coaches and harsh challenges.",
+				segments1Title: "Students and early specialists",
+				segments1Text: "Helps combine study, work and personal goals without constant chaos and “I’m always late”.",
+				segments2Title: "Freelancers and self-employed",
+				segments2Text: "Provides an external discipline contour when there is no boss but there are deadlines and client responsibility.",
+				segments3Title: "Entrepreneurs and those who are “finding themselves”",
+				segments3Text: "Helps not to drown in an endless to-do list and keep focus on actions that really move you forward.",
+				segments4Title: "Families",
+				segments4Text: "Parents can track children’s progress, set joint challenges and support discipline for the whole family.",
+				segments5Title: "Coaches and mentors",
+				segments5Text: "OST becomes a background between sessions: participants take small steps every day, and you see engagement and progress.",
+				segments6Title: "Teams and small businesses",
+				segments6Text: "Helps teams build a habit of finishing tasks steadily instead of only “burning” at the deadline.",
+				segments: {
+					title: "Who OST is for",
+					subtitle: "The platform is designed for people who want to work on themselves systematically but aren’t ready for expensive coaches or hardcore marathons.",
+					students: {
+						title: "Students and early-career specialists",
+						text: "Helps combine studies, work and personal goals without the constant feeling of chaos and “I’m always behind”."
+					},
+					freelancers: {
+						title: "Freelancers and self-employed",
+						text: "Provides an external discipline framework when you don’t have a boss or rigid schedule, but you do have deadlines and responsibility."
+					},
+					founders: {
+						title: "Entrepreneurs and people in search of themselves",
+						text: "Helps you avoid drowning in an endless to-do list and keep your focus on the steps that really matter."
+					},
+					family: {
+						title: "Families",
+						text: "Parents can track their children’s progress, set up joint challenges and support discipline for the whole family."
+					},
+					coaches: {
+						title: "Coaches and mentors",
+						text: "OST becomes the background between sessions: participants take small steps every day, and you can see their engagement."
+					},
+					teams: {
+						title: "Teams and small businesses",
+						text: "Helps build the habit of finishing tasks instead of “putting out fires” only at the deadline."
+					}
+				},
+				contactSupport: {
+					joinTitle: "Join the OST project",
+					joinText:
+						"Leave your contact if you want to join the pilot, propose a partnership or discuss contributing to the platform.",
+					joinHint:
+						"When you submit the form, your email client will open with a prepared message to support@OneSelfTechnology.com — you can edit it before sending.",
+					formName: "Name",
+					formEmail: "Email",
+					formRole: "Role",
+					formRoleUser: "Potential user",
+					formRoleInvestor: "Investor / patron",
+					formRolePartner: "Partner / company",
+					formRoleOther: "Other",
+					formTelegram: "Telegram (optional)",
+					formComment: "Comment (optional)",
+					formSubmit: "Send contact",
+					supportTitle: "Support OST development",
+					supportText:
+						"If you like the idea of OST and want to speed up the launch, you can support the project financially. Funds go to MVP development, infrastructure and UX research.",
+					supportBoosty: "Support on Boosty",
+					supportWallet: "Show USDT wallet",
+					walletNetwork: "Network: BSC (BEP20)",
+					walletAddressLabel: "Wallet address",
+					walletCopy: "Copy"
+				},
+				roadmapTitle: "OST roadmap",
+				roadmapIntro: "The diploma defines a realistic path from a Telegram MVP to a scalable platform with several domains and a B2B track.",
+				roadmap1Title: "Design and Telegram MVP",
+				roadmap1Text: "Describe scenarios, architecture, metrics and economics. Implement the MVP bot with core dialogues and habit management.",
+				roadmap1Meta: "Horizon: up to 12 months. Result: working MVP for first users.",
+				roadmap2Title: "Pilot and hypothesis validation",
+				roadmap2Text: "Test on a limited audience: retention D7/D28, dialogue activity, conversion to paid and qualitative feedback.",
+				roadmap2Meta: "Horizon: 3–6 months after MVP. Result: confirmation or rebuild of key hypotheses.",
+				roadmap3Title: "Version 1.0 of the OST platform",
+				roadmap3Text: "Develop personal, family and team plans, improve onboarding, expand scenarios and progress analytics.",
+				roadmap3Meta: "Horizon: 1–2 years from MVP start. Result: product with sustainable economics and repeatable sales motion.",
+				roadmap4Title: "Scaling and new domains",
+				roadmap4Text: "Launch modules for Self / Career / Fitness / Team, integrate with calendars, wearables and B2B partners.",
+				roadmap4Meta: "Horizon: 3+ years. Result: OST as an ecosystem for behavioral change.",
+				footerPolicy: "Privacy policy (draft)",
+				footerTerms: "Terms of use (draft)"
+			},
+			ru: {
+				contactSupport: {
+					joinTitle: "Присоединиться к проекту OST",
+					joinText:
+						"Оставьте контакты, если хотите попасть в пилот, предложить партнёрство или обсудить участие в развитии платформы.",
+					joinHint:
+						"При отправке формы откроется ваш почтовый клиент с подготовленным письмом на support@OneSelfTechnology.com — вы сможете отредактировать письмо перед отправкой.",
+					formName: "Имя",
+					formEmail: "Email",
+					formRole: "Роль",
+					formRoleUser: "Потенциальный пользователь",
+					formRoleInvestor: "Инвестор / меценат",
+					formRolePartner: "Партнёр / компания",
+					formRoleOther: "Другое",
+					formTelegram: "Telegram (опционально)",
+					formComment: "Комментарий (опционально)",
+					formSubmit: "Отправить контакт",
+					supportTitle: "Поддержать развитие OST",
+					supportText:
+						"Если вам близка идея OST и вы хотите ускорить запуск, вы можете поддержать проект финансово. Средства пойдут на разработку MVP, инфраструктуру и UX-исследования.",
+					supportBoosty: "Поддержать на Boosty",
+					supportWallet: "Показать USDT-кошелёк",
+					walletNetwork: "Сеть: BSC (BEP20)",
+					walletAddressLabel: "Адрес кошелька",
+					walletCopy: "Скопировать"
+				}
+			}
+		};
+
+		const langButtons = document.querySelectorAll('.lang-btn');
+		const i18nElements = document.querySelectorAll('[data-i18n]');
+		const originalRu = {};
+
+		i18nElements.forEach(el => {
+			const key = el.getAttribute('data-i18n');
+			originalRu[key] = el.innerHTML;
+		});
+
+		function setLanguage(lang) {
+			langButtons.forEach(btn => {
+				btn.classList.toggle('active', btn.dataset.lang === lang);
+			});
+			if (lang === 'ru') {
+				i18nElements.forEach(el => {
+					const key = el.getAttribute('data-i18n');
+					if (originalRu[key]) el.innerHTML = originalRu[key];
+				});
+				return;
+			}
+			const dict = translations[lang];
+			if (!dict) return;
+			i18nElements.forEach(el => {
+				const key = el.getAttribute('data-i18n');
+				if (dict[key]) el.innerHTML = dict[key];
+			});
+		}
+
+		langButtons.forEach(btn => {
+			btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+		});
+
+		setLanguage('ru');
+
+		// Theme toggle
+		const themeToggle = document.getElementById('themeToggle');
+		function updateThemeLabel() {
+			const current = document.body.getAttribute('data-theme') || 'dark';
+			themeToggle.textContent = current === 'dark' ? 'Dark' : 'Light';
+		}
+		updateThemeLabel();
+
+		themeToggle.addEventListener('click', () => {
+			const current = document.body.getAttribute('data-theme') || 'dark';
+			const next = current === 'dark' ? 'light' : 'dark';
+			document.body.setAttribute('data-theme', next);
+			updateThemeLabel();
+		});
+		// Переключение сценариев диалогов
+		const scenarioTabs = document.querySelectorAll('.scenario-tab');
+		const scenarioChats = document.querySelectorAll('.scenario-chat');
+		const scenarioTagline = document.getElementById('scenarioTagline');
+
+		const scenarioTaglines = {
+			personal: {
+				ru: 'Тариф «Личный» · запрос «Хочу похудеть без срывов»',
+				en: 'Solo plan · goal “Lose weight without burnout”'
+			},
+			family: {
+				ru: 'Тариф «Семейный» · запрос «Учёба и дисциплина ребёнка»',
+				en: 'Family plan · goal “Child study & discipline”'
+			},
+			team: {
+				ru: 'Тариф «Командный» · запрос «Фокус команды и дедлайны»',
+				en: 'Team plan · goal “Team focus & deadlines”'
+			}
+		};
+
+		function updateScenarioTagline(key) {
+			const currentLangBtn = document.querySelector('.lang-btn.active');
+			const lang = currentLangBtn ? currentLangBtn.dataset.lang : 'ru';
+			const textObj = scenarioTaglines[key] || scenarioTaglines.personal;
+			scenarioTagline.textContent = (lang === 'en' ? textObj.en : textObj.ru);
+		}
+
+		scenarioTabs.forEach(tab => {
+			tab.addEventListener('click', () => {
+				const key = tab.dataset.scenarioTab;
+
+				scenarioTabs.forEach(t => t.classList.toggle('active', t === tab));
+				scenarioChats.forEach(chat => {
+					chat.classList.toggle('active', chat.dataset.scenario === key);
+				});
+				updateScenarioTagline(key);
+			});
+		});
+
+		// Частицы для курсора: лёгкий след и мини-фейерверк на клик
+		(function () {
+			const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+			if (isCoarse) return;
+
+			let lastSpawn = 0;
+			const spawnInterval = 6; // чем больше число, тем меньше искр при движении
+
+			function createParticle(x, y, power = 1) {
+				const p = document.createElement('div');
+				p.className = 'cursor-particle';
+
+				const size = 4 + Math.random() * 6 * power;
+				p.style.width = `${size}px`;
+				p.style.height = `${size}px`;
+
+				const offsetX = (Math.random() - 0.5) * 30 * power;
+				const offsetY = (Math.random() - 0.5) * 30 * power;
+
+				p.style.left = `${x}px`;
+				p.style.top = `${y}px`;
+
+				document.body.appendChild(p);
+
+				requestAnimationFrame(() => {
+					p.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(0)`;
+					p.style.opacity = '0';
+				});
+
+				setTimeout(() => {
+					p.remove();
+				}, 500);
+			}
+
+			document.addEventListener('mousemove', (e) => {
+				const now = performance.now();
+				if (now - lastSpawn < spawnInterval) return;
+				lastSpawn = now;
+				createParticle(e.clientX, e.clientY, 0.6);
+			});
+
+			document.addEventListener('mousedown', (e) => {
+				for (let i = 0; i < 20; i++) {
+					createParticle(e.clientX, e.clientY, 1.2);
+				}
+			});
+		})();
+
+		// Отключаем автоматическое восстановление позиции скролла браузером
+		if ('scrollRestoration' in history) {
+			history.scrollRestoration = 'manual';
+		}
+
+		// При полной загрузке страницы скроллим в самый верх, если нет якоря в адресной строке
+		window.addEventListener('load', function () {
+			if (!window.location.hash) {
+				window.scrollTo(0, 0);
+			}
+		});
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const CONTACT_EMAIL = "support@OneSelfTechnology.com";
+
+			// ----- отправка формы контактов через mailto -----
+			const joinForm = document.getElementById("join-ost-form");
+
+			if (joinForm) {
+				joinForm.addEventListener("submit", function (event) {
+					event.preventDefault();
+
+					const formData = new FormData(joinForm);
+					const name = (formData.get("name") || "").trim();
+					const email = (formData.get("email") || "").trim();
+					const telegram = (formData.get("telegram") || "").trim();
+					const comment = (formData.get("comment") || "").trim();
+
+					const roleSelect = joinForm.querySelector('select[name="role"]');
+					const roleText = roleSelect && roleSelect.selectedOptions.length
+						? roleSelect.selectedOptions[0].textContent.trim()
+						: "";
+
+					const lang =
+						document.documentElement.getAttribute("data-lang") || "ru";
+
+					if (!name || !email || !roleText) {
+						if (lang === "ru") {
+							alert("Пожалуйста, заполните Имя, Email и Роль.");
+						} else {
+							alert("Please fill in Name, Email and Role.");
+						}
+						return;
+					}
+
+					const subject =
+						lang === "ru"
+							? `OST: новый контакт (${roleText})`
+							: `OST: new contact (${roleText})`;
+
+					let bodyLines = [];
+
+					if (lang === "ru") {
+						bodyLines.push(`Имя: ${name}`);
+						bodyLines.push(`Email: ${email}`);
+						bodyLines.push(`Роль: ${roleText}`);
+						if (telegram) bodyLines.push(`Telegram: ${telegram}`);
+						if (comment) {
+							bodyLines.push("");
+							bodyLines.push("Комментарий:");
+							bodyLines.push(comment);
+						}
+					} else {
+						bodyLines.push(`Name: ${name}`);
+						bodyLines.push(`Email: ${email}`);
+						bodyLines.push(`Role: ${roleText}`);
+						if (telegram) bodyLines.push(`Telegram: ${telegram}`);
+						if (comment) {
+							bodyLines.push("");
+							bodyLines.push("Comment:");
+							bodyLines.push(comment);
+						}
+					}
+
+					const body = bodyLines.join("\n");
+					const mailtoUrl =
+						"mailto:" +
+						CONTACT_EMAIL +
+						"?subject=" +
+						encodeURIComponent(subject) +
+						"&body=" +
+						encodeURIComponent(body);
+
+					window.location.href = mailtoUrl;
+				});
+			}
+
+			// ----- показать / скрыть кошелёк + копирование адреса -----
+			const walletToggle = document.getElementById("wallet-toggle-ost");
+			const walletDetails = document.getElementById("wallet-details-ost");
+			const walletAddress = document.getElementById("wallet-address-ost");
+			const walletCopyBtn = document.getElementById("wallet-copy-ost");
+
+			if (walletToggle && walletDetails) {
+				walletToggle.addEventListener("click", function () {
+					walletDetails.classList.toggle("is-open");
+				});
+			}
+
+			if (walletCopyBtn && walletAddress) {
+				walletCopyBtn.addEventListener("click", function () {
+					const text = walletAddress.textContent.trim();
+					const lang =
+						document.documentElement.getAttribute("data-lang") || "ru";
+
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard.writeText(text).then(
+							function () {
+								if (lang === "ru") {
+									alert("Адрес кошелька скопирован в буфер обмена.");
+								} else {
+									alert("Wallet address copied to clipboard.");
+								}
+							},
+							function () {
+								if (lang === "ru") {
+									alert("Не удалось скопировать адрес. Скопируйте вручную.");
+								} else {
+									alert("Copy failed. Please copy the address manually.");
+								}
+							}
+						);
+					} else {
+						if (lang === "ru") {
+							alert(
+								"Ваш браузер не позволяет скопировать текст автоматически. Скопируйте адрес вручную:\n" +
+								text
+							);
+						} else {
+							alert(
+								"Your browser cannot copy automatically. Please copy the address manually:\n" +
+								text
+							);
+						}
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>
