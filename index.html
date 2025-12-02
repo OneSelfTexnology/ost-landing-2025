@@ -1289,6 +1289,13 @@
 			opacity: 0.6;
 		}
 
+		input::placeholder,
+		textarea::placeholder,
+		select.placeholder-option {
+			color: #7d87a5;
+			opacity: 1;
+		}
+
 		/* Карточка с кошельком */
 
 		.support-ost-actions {
@@ -2070,50 +2077,44 @@
 					onsubmit="sendContactForm('ru'); return false;">
 					<div class="join-ost-form-group">
 						<label>
-							<span data-i18n="contactSupport.formName">Имя</span>
-							<input id="contact-name" type="text" name="name" required />
+							<span data-i18n="contactSupport.formName">Имя*</span>
+							<input id="contact-name" type="text" name="name" placeholder="Ваше имя" required />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>
-							<span data-i18n="contactSupport.formEmail">Email</span>
-							<input id="contact-email" type="email" name="email" required />
+							<span data-i18n="contactSupport.formEmail">Email*</span>
+							<input id="contact-email" type="email" name="email" placeholder="Ваш email" required />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>
-							<span data-i18n="contactSupport.formRole">Роль</span>
+							<span data-i18n="contactSupport.formRole">Роль*</span>
 							<select id="contact-role" name="role" required>
-								<option value="" disabled selected hidden></option>
-								<option value="Потенциальный пользователь" data-i18n="contactSupport.formRoleUser">
-									Потенциальный пользователь
-								</option>
-								<option value="Инвестор / меценат" data-i18n="contactSupport.formRoleInvestor">
-									Инвестор / меценат
-								</option>
-								<option value="Партнёр / компания" data-i18n="contactSupport.formRolePartner">
-									Партнёр / компания
-								</option>
-								<option value="Другое" data-i18n="contactSupport.formRoleOther">
-									Другое
-								</option>
+								<option value="" disabled selected class="placeholder-option">Выберите роль</option>
+								<option value="Потенциальный пользователь">Потенциальный пользователь</option>
+								<option value="Спонсор / поддерживающий проект">Спонсор / поддерживающий проект</option>
+								<option value="Эксперт или консультант">Эксперт или консультант</option>
+								<option value="Партнёр / компания">Партнёр / компания</option>
+								<option value="Просто хочу помочь проекту">Просто хочу помочь проекту</option>
+								<option value="Другое">Другое</option>
 							</select>
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>
-							<span data-i18n="contactSupport.formTelegram">Telegram (опционально)</span>
+							<span data-i18n="contactSupport.formTelegram">Telegram</span>
 							<input id="contact-telegram" type="text" name="telegram" placeholder="@username" />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group join-ost-form-group--full">
 						<label>
-							<span data-i18n="contactSupport.formComment">Комментарий (опционально)</span>
-							<textarea id="contact-comment" name="comment" rows="3"></textarea>
+							<span data-i18n="contactSupport.formComment">Комментарий</span>
+							<textarea id="contact-comment" name="comment" rows="3" placeholder="Ваши пожелания..."></textarea>
 						</label>
 					</div>
 
@@ -2146,19 +2147,19 @@
 
 					<div class="join-ost-form-group">
 						<label>Email
-							<input id="contact-email-en" type="email" name="email" placeholder="email@example.com" required />
+							<input id="contact-email-en" type="email" name="email" placeholder="Your email" required />
 						</label>
 					</div>
 
 					<div class="join-ost-form-group">
 						<label>Role
 							<select id="contact-role-en" name="role" required>
-								<option value="" disabled selected hidden></option>
-								<option value="Creator">Creator</option>
-								<option value="Developer">Developer</option>
-								<option value="Marketer">Marketer</option>
-								<option value="Coach">Coach</option>
-								<option value="Partner">Partner</option>
+								<option value="" disabled selected class="placeholder-option">Select your role</option>
+								<option value="Potential user">Potential user</option>
+								<option value="Sponsor / supporter">Sponsor / supporter</option>
+								<option value="Expert or consultant">Expert or consultant</option>
+								<option value="Partner / company">Partner / company</option>
+								<option value="Just want to help">Just want to help</option>
 								<option value="Other">Other</option>
 							</select>
 						</label>
@@ -2172,7 +2173,8 @@
 
 					<div class="join-ost-form-group join-ost-form-group--full">
 						<label>Comment (optional)
-							<textarea id="contact-comment-en" name="comment" rows="3" placeholder="Write your message…"></textarea>
+							<textarea id="contact-comment-en" name="comment" rows="3"
+								placeholder="Your message or suggestions (optional)"></textarea>
 						</label>
 					</div>
 
